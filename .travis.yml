@@ -1,0 +1,9 @@
+
+language: csharp
+sudo: required
+mono: none
+dotnet: 6.0
+dist: xenial
+script:
+  - dotnet restore
+  - dotnet build
