@@ -1,9 +1,27 @@
 ﻿@page "/"
+@using FrostAura.Clients.PointsKeeper.Shared.Models
+@using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+@code{
+    object exampleModel = new {
+        name = "Dean",
+        surname = "Martin"
+    };
+}
 
-Welcome to your new app.
+<DynamicForm
+    TDataContextType="object"
+    DataContext="exampleModel"
+    ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<br/>
+<h3>Current Limitations / TODOs</h3>
+<ul>
+    <li>Styling of form components.</li>
+    <li>Entity selector for complex types which are entities.</li>
+    <li>Events for when values change.</li>
+    <li>Per-element validation for complex types. Currently there is a single validation message for the entire complex type which doesn't work.</li>
+    <li>Refactor contentservice injection to extensions in the components library.</li>
+</ul>

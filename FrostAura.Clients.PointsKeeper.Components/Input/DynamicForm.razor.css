@@ -1,0 +1,11 @@
+﻿fa-dynamic-form {
+    display: block;
+}
+
+fa-dynamic-form > div{
+    color: green;
+}
+
+    fa-dynamic-form .validation-message {
+        color: var(--fa-color-negative);
+    }

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FrostAura.Clients.PointsKeeper.Components\FrostAura.Clients.PointsKeeper.Components.csproj" />
     <ProjectReference Include="..\FrostAura.Clients.PointsKeeper.Core\FrostAura.Clients.PointsKeeper.Core.csproj" />
     <ProjectReference Include="..\FrostAura.Clients.PointsKeeper.Data\FrostAura.Clients.PointsKeeper.Data.csproj" />
     <ProjectReference Include="..\FrostAura.Clients.PointsKeeper.Shared\FrostAura.Clients.PointsKeeper.Shared.csproj" />

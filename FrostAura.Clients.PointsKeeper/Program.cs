@@ -1,3 +1,5 @@
+using FrostAura.Clients.PointsKeeper.Components.Interfaces.Resources;
+using FrostAura.Clients.PointsKeeper.Components.Services.Resources;
 using FrostAura.Clients.PointsKeeper.Data;
 using FrostAura.Clients.PointsKeeper.Data.Extensions;
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<IContentService, EmbeddedContentService>();
 builder.Services.AddFrostAuraResources(builder.Configuration);
 
 var app = builder.Build();
