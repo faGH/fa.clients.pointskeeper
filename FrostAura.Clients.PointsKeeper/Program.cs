@@ -7,8 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
-
-// Add FrostAura services.
 builder.Services.AddFrostAuraResources(builder.Configuration);
 
 var app = builder.Build();
@@ -22,12 +20,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseRouting();
-
-// Use FrostAura services.
 app.UseFrostAuraResources<Program>();
 
 app.MapBlazorHub();
