@@ -3,17 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrostAura.Clients.PointsKeeper", "FrostAura.Clients.PointsKeeper.csproj", "{70F99AC4-84C5-4C4B-8044-51FDD4624110}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrostAura.Clients.PointsKeeper", "FrostAura.Clients.PointsKeeper.csproj", "{70F99AC4-84C5-4C4B-8044-51FDD4624110}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrostAura.Clients.PointsKeeper.Core", "..\FrostAura.Clients.PointsKeeper.Core\FrostAura.Clients.PointsKeeper.Core.csproj", "{668E2240-DD55-4B1D-A76B-FA04CCB0460F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrostAura.Clients.PointsKeeper.Core", "..\FrostAura.Clients.PointsKeeper.Core\FrostAura.Clients.PointsKeeper.Core.csproj", "{668E2240-DD55-4B1D-A76B-FA04CCB0460F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrostAura.Clients.PointsKeeper.Shared", "..\FrostAura.Clients.PointsKeeper.Shared\FrostAura.Clients.PointsKeeper.Shared.csproj", "{F9CD04E1-4470-4311-94B9-934A01EC6DB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrostAura.Clients.PointsKeeper.Shared", "..\FrostAura.Clients.PointsKeeper.Shared\FrostAura.Clients.PointsKeeper.Shared.csproj", "{F9CD04E1-4470-4311-94B9-934A01EC6DB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrostAura.Clients.PointsKeeper.Data", "..\FrostAura.Clients.PointsKeeper.Data\FrostAura.Clients.PointsKeeper.Data.csproj", "{D7B3A305-486F-4E04-8C89-B5B4DABEB713}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrostAura.Clients.PointsKeeper.Data", "..\FrostAura.Clients.PointsKeeper.Data\FrostAura.Clients.PointsKeeper.Data.csproj", "{D7B3A305-486F-4E04-8C89-B5B4DABEB713}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layered Architecture", "Layered Architecture", "{0494E8B0-8836-44A6-8EF2-4837C4F36074}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{A26A8E27-EB0B-4131-BDD0-43C320F97F7E}"
+	ProjectSection(SolutionItems) = preProject
+		..\.dockerignore = ..\.dockerignore
+		..\docker-compose.yml = ..\docker-compose.yml
+		..\Dockerfile = ..\Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
