@@ -34,6 +34,20 @@ namespace FrostAura.Clients.PointsKeeper.Pages
             formPropertyEffects.Clear();
             formPropertyEffects.Add(new EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>("PlayerId", players));
         }
+
+        private int GetTotalDonationsPerPoint()
+        {
+            return dbContext
+                .Donors
+                .Sum(d => d.Amount);
+        }
+
+        private int GetTotalPoints()
+        {
+            return dbContext
+                .Points
+                .Sum(p => p.Count);
+        }
     }
 }
 

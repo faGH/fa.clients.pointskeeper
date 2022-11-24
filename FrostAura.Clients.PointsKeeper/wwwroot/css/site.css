@@ -122,3 +122,22 @@ button.icon {
 .validation-message {
     color: crimson!important;
 }
+
+.container > .content {
+    margin: 20% 0;
+}
+
+.total,
+.points {
+    text-align: center;
+}
+
+.total {
+    font-size: 350%;
+    color: darkgreen;
+}
+
+.points {
+    font-size: 125%;
+    color: gray;
+}
