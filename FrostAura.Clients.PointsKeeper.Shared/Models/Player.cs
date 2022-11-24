@@ -10,17 +10,13 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
   /// </summary>
   [Table("Players")]
   [DebuggerDisplay("Name: {Name}")]
-  public class Player : BaseEntity
+  public class Player : BaseNamedEntity
   {
-    /// <summary>
-    /// Entity name / short description.
-    /// </summary>
-    [Required(AllowEmptyStrings = false, ErrorMessage = $"A valid {nameof(Player)} name is required.")]
-    public string Name { get; set; } = string.Empty;
     /// <summary>
     /// The unique id of the team the respective player belongs to.
     /// </summary>
     [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "A valid team id is required.")]
     public int TeamId { get; set; }
     /// <summary>
     /// The team context that the respective player belongs to.

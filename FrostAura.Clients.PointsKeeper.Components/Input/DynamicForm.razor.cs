@@ -1,5 +1,6 @@
 ﻿using FrostAura.Clients.PointsKeeper.Components.Abstractions;
 using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm;
+using FrostAura.Clients.PointsKeeper.Components.Models;
 using FrostAura.Clients.PointsKeeper.Shared.Attributes.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -35,6 +36,11 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
     /// </summary>
     [Parameter]
     public ValidationSummaryPosition ValidationSummaryPosition { get; set; }
+    /// <summary>
+    /// Collection of form property effects to apply.
+    /// </summary>
+    [Parameter]
+    public List<FormPropertyEffect> PropertyEffects { get; set; } = new List<FormPropertyEffect>();
     /// <summary>
     /// Get data context property information.
     /// </summary>

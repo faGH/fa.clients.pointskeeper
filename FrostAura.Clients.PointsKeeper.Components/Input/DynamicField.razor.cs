@@ -1,4 +1,5 @@
 ﻿using FrostAura.Clients.PointsKeeper.Components.Abstractions;
+using FrostAura.Clients.PointsKeeper.Components.Models;
 using FrostAura.Clients.PointsKeeper.Shared.Attributes.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.CompilerServices;
@@ -18,6 +19,11 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
   /// </summary>
   public partial class DynamicField : BaseComponent<DynamicField>
   {
+    /// <summary>
+    /// Collection of form property effects to apply.
+    /// </summary>
+    [Parameter]
+    public List<FormPropertyEffect> PropertyEffects { get; set; } = new List<FormPropertyEffect>();
     /// <summary>
     /// Get the instance. This instance will be used to fill out the values inputted by the user.
     /// </summary>
@@ -48,8 +54,11 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
       {
         var descriptionAttribute = PropertyInformation
             .GetCustomAttribute<DescriptionAttribute>();
+        var label = descriptionAttribute?.Description ?? PropertyInformation.Name;
 
-        return descriptionAttribute?.Description ?? PropertyInformation.Name;
+        if (label.EndsWith("Id")) label = label.Replace("Id", "");
+
+        return label;
       }
     }
     /// <summary>
@@ -138,6 +147,36 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
         return;
       }
 
+      // Process effects.
+      var effectsToProcess = PropertyEffects
+        .Where(pe => pe.PropertyName == PropertyInformation?.Name);
+
+      foreach(var effect in effectsToProcess)
+      {
+        var parsedEffect = ((EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>)effect);
+        componentType = parsedEffect.ControlToRenderType;
+        componentType = typeof(SelectInputCustom<int>);
+        var constants = Expression.Constant(Model, Model.GetType());
+        var exps = Expression.Property(constants, PropertyInformation.Name);
+        var lambdas = Expression.Lambda(exps);
+        var castedLambdas = (Expression<Func<TValue>>)lambdas;
+        var currentValues = (TValue)PropertyInformation.GetValue(Model);
+
+        builder.OpenComponent(0, componentType);
+        builder.AddAttribute(1, "id", _fieldId);
+        // The following is a replacement for the bind-value property.
+        builder.AddAttribute(2, nameof(InputBase<TValue>.Value), currentValues);
+        builder.AddAttribute(3, nameof(InputBase<TValue>.ValueExpression), castedLambdas);
+        builder.AddAttribute(4, nameof(InputBase<TValue>.ValueChanged), RuntimeHelpers.TypeCheck(
+            EventCallback.Factory.Create(
+                this,
+                EventCallback.Factory.CreateInferred(this, val => PropertyInformation.SetValue(Model, val),
+                (TValue)PropertyInformation.GetValue(Model)))));
+        builder.AddAttribute(5, "DataSource", parsedEffect.DataSource);
+        builder.CloseComponent();
+        return;
+      }
+
       var constant = Expression.Constant(Model, Model.GetType());
       var exp = Expression.Property(constant, PropertyInformation.Name);
       var lambda = Expression.Lambda(exp);
@@ -185,6 +224,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
         builder.AddAttribute(1, nameof(EnableDemoMode), EnableDemoMode);
         builder.AddAttribute(2, nameof(PropertyInformation), property);
         builder.AddAttribute(3, nameof(Model), nestedModel);
+        builder.AddAttribute(4, nameof(PropertyEffects), PropertyEffects);
         builder.CloseComponent();
       }
     }

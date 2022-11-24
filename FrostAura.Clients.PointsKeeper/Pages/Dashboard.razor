@@ -9,12 +9,15 @@
         name = "Dean",
         surname = "Martin"
     };
+    int selection = 0;
 }
 
-<DynamicForm
-    TDataContextType="object"
-    DataContext="exampleModel"
-    ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
+<EditForm Model="new object()">
+    <InputSelect TValue="int" @bind-Value="selection">
+        <option value="1">Hello</option>
+        <option value="2">World</option>
+    </InputSelect>
+</EditForm>
 
 <br/>
 <h3>Current Limitations / TODOs</h3>

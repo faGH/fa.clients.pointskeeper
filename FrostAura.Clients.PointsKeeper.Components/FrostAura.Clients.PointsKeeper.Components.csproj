@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <None Remove="Input\DynamicForm.razor.css" />
+    <None Remove="Models\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,5 +28,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FrostAura.Clients.PointsKeeper.Shared\FrostAura.Clients.PointsKeeper.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

@@ -32,7 +32,21 @@ namespace FrostAura.Clients.PointsKeeper.Pages
 
         private async Task OnAddTeamAsync(Team validNewTeam)
         {
-            await dbContext.Teams.AddAsync(validNewTeam);
+            // See if another team with this name doesn't already exist. If so, use it instead.
+            Team? existingTeam = dbContext
+                .Teams
+                .FirstOrDefault(t => t.Name.ToLower() == validNewTeam.Name.ToLower());
+
+            if(existingTeam == default)
+            {
+                await dbContext.Teams.AddAsync(validNewTeam);
+            }
+            else
+            {
+                existingTeam.Deleted = false;
+                dbContext.Update(existingTeam);
+            }
+
             await dbContext.SaveChangesAsync();
             OnInitialized();
         }
