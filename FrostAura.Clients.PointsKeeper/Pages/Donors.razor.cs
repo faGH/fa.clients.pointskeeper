@@ -76,6 +76,11 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 OnInitialized();
             }
         }
+
+        private int GetTotalPoints()
+        {
+            return dbContext.Points.Sum(p => p.Count);
+        }
     }
 }
 

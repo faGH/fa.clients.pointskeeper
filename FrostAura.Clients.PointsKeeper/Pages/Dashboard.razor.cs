@@ -35,6 +35,12 @@ namespace FrostAura.Clients.PointsKeeper.Pages
             formPropertyEffects.Add(new EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>("PlayerId", players));
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            //await JsRuntime.InvokeAsync<object>("setTimeout", new object[] { "() => window.location.reload()", 1000 * 15});
+            await base.OnAfterRenderAsync(firstRender);
+        }
+
         private int GetTotalDonationsPerPoint()
         {
             return dbContext
