@@ -3,6 +3,8 @@ using FrostAura.Clients.PointsKeeper.Components.Attributes.Rendering;
 using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace FrostAura.Clients.PointsKeeper.Components.Input
@@ -22,7 +24,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
     /// Callback for when the form is submitted with valid values.
     /// </summary>
     [Parameter]
-    public EventCallback OnValidSubmit { get; set; }
+    public EventCallback<TDataContextType> OnValidSubmit { get; set; }
     /// <summary>
     /// Submit button text to show.
     /// </summary>
@@ -40,6 +42,9 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
         .GetType()
         .GetProperties()
         .Where(p => p.GetCustomAttribute<FieldIgnoreAttribute>() == default)
+        .Where(p => p.GetCustomAttribute<JsonIgnoreAttribute>() == default)
+        .Where(p => p.GetCustomAttribute<DatabaseGeneratedAttribute>() == default)
+        .Where(p => !p.GetAccessors().First().IsVirtual)
         .ToArray();
 
     /// <summary>
@@ -50,7 +55,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
     {
       if (!OnValidSubmit.HasDelegate) return;
 
-      OnValidSubmit.InvokeAsync(context);
+      OnValidSubmit.InvokeAsync((TDataContextType)context.Model);
       StateHasChanged();
     }
   }

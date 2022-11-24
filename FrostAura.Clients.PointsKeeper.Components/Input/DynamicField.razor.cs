@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Components.CompilerServices;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -166,6 +168,9 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
       var properties = type
           .GetProperties()
           .Where(p => p.GetCustomAttribute<FieldIgnoreAttribute>() == default)
+          .Where(p => p.GetCustomAttribute<JsonIgnoreAttribute>() == default)
+          .Where(p => p.GetCustomAttribute<DatabaseGeneratedAttribute>() == default)
+          .Where(p => !p.GetAccessors().First().IsVirtual)
           .ToArray();
       var nestedModel = Model
         .GetType()

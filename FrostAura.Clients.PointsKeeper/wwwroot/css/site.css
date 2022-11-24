@@ -62,3 +62,11 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+span.io {
+    cursor: pointer;
+}
+
+div.title-bar {
+    font-size: small;
+}

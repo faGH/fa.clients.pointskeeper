@@ -1,0 +1,70 @@
+﻿@page "/teams"
+
+<PageTitle>Teams</PageTitle>
+
+@using FrostAura.Clients.PointsKeeper.Data
+@using FrostAura.Clients.PointsKeeper.Shared.Models
+@using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm
+@inject PointsKeeperDbContext dbContext
+@inject IJSRuntime JsRuntime
+
+<h1>All Teams</h1>
+<p>View and manage teams that players can be assigned to.</p>
+
+@if (teams == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!teams.Any())
+{
+    <hr>
+    <p>No teams yet. Let's add some!</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Edit</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var team in teams)
+            {
+                <tr>
+                    <td>@team.Name</td>
+                    <td><button @onclick="() => FocusOnEditTeam(team)"><span class="oi oi-pencil" aria-hidden="true"></span></button></td>
+                    <td><button @onclick="() => OnRemoveTeamAsync(team)"><span class="oi oi-circle-x" aria-hidden="true"></span></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<button @onclick="FocusOnCreateNewTeam">
+    <span class="oi oi-plus" aria-hidden="true"></span> Create a New Team
+</button>
+
+@if (newTeam != default)
+{
+    <hr>
+    <h1>New Team</h1>
+    <DynamicForm TDataContextType="Team"
+                 DataContext="newTeam"
+                 OnValidSubmit="OnAddTeamAsync"
+                 SubmitButtonText="Add Team"
+                 ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
+}
+
+@if (editTeam != default)
+{
+    <hr>
+    <h1>Edit Team</h1>
+    <DynamicForm TDataContextType="Team"
+                 DataContext="editTeam"
+                 OnValidSubmit="OnEditTeamAsync"
+                 SubmitButtonText="Save Team"
+                 ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
+}

@@ -9,3 +9,8 @@ fa-dynamic-form > div{
     fa-dynamic-form .validation-message {
         color: var(--fa-color-negative);
     }
+
+fa-dynamic-field > div {
+    padding-bottom: 15px;
+    padding-top: 5px;
+}

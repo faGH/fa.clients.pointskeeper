@@ -10,7 +10,6 @@
   "profiles": {
     "FrostAura.Clients.PointsKeeper": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7093;http://localhost:5093",
       "environmentVariables": {
