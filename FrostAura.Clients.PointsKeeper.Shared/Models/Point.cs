@@ -22,6 +22,7 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
     /// The unique id of the player the respective point belongs to.
     /// </summary>
     [Required]
+    [Range(1, int.MaxValue, ErrorMessage = "A valid player is required.")]
     public int PlayerId { get; set; }
     /// <summary>
     /// The player context that the respective point belongs to.

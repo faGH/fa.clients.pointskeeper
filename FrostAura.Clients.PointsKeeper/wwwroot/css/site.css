@@ -77,3 +77,15 @@ div.title-bar {
     div.title-bar > div {
         display: inline-block !important;
     }
+
+div.footer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+    div.footer div.players,
+    div.footer div.teams {
+        flex: 1;
+        min-width: 250px;
+        padding: 5px;
+    }

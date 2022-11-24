@@ -16,7 +16,7 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
     /// The unique id of the team the respective player belongs to.
     /// </summary>
     [Required]
-    [Range(1, int.MaxValue, ErrorMessage = "A valid team id is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "A valid team is required.")]
     public int TeamId { get; set; }
     /// <summary>
     /// The team context that the respective player belongs to.

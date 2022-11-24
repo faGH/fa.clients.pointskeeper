@@ -1,30 +1,89 @@
 ﻿@page "/"
-@using FrostAura.Clients.PointsKeeper.Shared.Models
-@using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm
 
 <PageTitle>Dashboard</PageTitle>
 
-@code{
-    object exampleModel = new {
-        name = "Dean",
-        surname = "Martin"
-    };
-    int selection = 0;
+@using FrostAura.Clients.PointsKeeper.Data
+@using FrostAura.Clients.PointsKeeper.Shared.Models
+@using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm
+@inject PointsKeeperDbContext dbContext
+@inject IJSRuntime JsRuntime
+
+@if (teams == null)
+{
+    <p><em>Loading...</em></p>
 }
-
-<EditForm Model="new object()">
-    <InputSelect TValue="int" @bind-Value="selection">
-        <option value="1">Hello</option>
-        <option value="2">World</option>
-    </InputSelect>
-</EditForm>
-
-<br/>
-<h3>Current Limitations / TODOs</h3>
-<ul>
-    <li>Styling of form components.</li>
-    <li>Entity selector for complex types which are entities.</li>
-    <li>Events for when values change.</li>
-    <li>Per-element validation for complex types. Currently there is a single validation message for the entire complex type which doesn't work.</li>
-    <li>Refactor contentservice injection to extensions in the components library.</li>
-</ul>
+else if (!teams.Any(t => !t.Deleted))
+{
+    <p>No teams yet. Start by navigating to the Teams tab and create some.</p>
+}
+else if (teams.Any(t => !t.Players.Any(p => !p.Deleted)))
+{
+    <p>No players yet. Start by navigating to the Players tab and create some.</p>
+}
+else
+{
+        <div class="container">
+            <div class="header">
+                <h1>Capture Points</h1>
+                <DynamicForm TDataContextType="Point"
+                             DataContext="newPoint"
+                             OnValidSubmit="OnCapturePointAsync"
+                             SubmitButtonText="Capture Points"
+                             PropertyEffects="formPropertyEffects"
+                             ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
+                <button @onclick="OnResetPointsAsync">
+                    <span class="oi oi-ban" aria-hidden="true"></span> Reset Points
+                </button>
+            </div>
+            <div class="content">
+                Charity stats go here...
+            </div>
+            <div class="footer">
+                <div class="teams">
+                    <h3>Teams</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Team Name</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var team in teams
+                                     .OrderByDescending(t => t.Players.SelectMany(p => p.Points).Sum(pt => pt.Count))
+                                     .ThenBy(p => p.Name))
+                            {
+                                <tr>
+                                    <td>@team.Name</td>
+                                    <td>@team.Players.SelectMany(p => p.Points).Sum(pt => pt.Count)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="players">
+                    <h3>Players</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Player Name</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var player in teams
+                                     .SelectMany(t => t.Players)
+                                     .OrderByDescending(p => p.Points.Sum(pt => pt.Count))
+                                     .ThenBy(p => p.Name))
+                            {
+                                <tr>
+                                    <td>@player.Name</td>
+                                    <td>@player.Points.Sum(p => p.Count)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+}
