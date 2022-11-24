@@ -37,8 +37,8 @@ else
                 <tr>
                     <td>@team.Id</td>
                     <td>@team.Name</td>
-                    <td><button @onclick="() => FocusOnEditTeam(team)"><span class="oi oi-pencil" aria-hidden="true"></span></button></td>
-                    <td><button @onclick="() => OnRemoveTeamAsync(team)"><span class="oi oi-circle-x" aria-hidden="true"></span></button></td>
+                    <td><button class="icon" @onclick="() => FocusOnEditTeam(team)"><span class="oi oi-pencil" aria-hidden="true"></span></button></td>
+                    <td><button class="icon" @onclick="() => OnRemoveTeamAsync(team)"><span class="oi oi-circle-x" aria-hidden="true"></span></button></td>
                 </tr>
             }
         </tbody>
@@ -46,7 +46,7 @@ else
 }
 
 <button @onclick="FocusOnCreateNewTeam">
-    <span class="oi oi-plus" aria-hidden="true"></span> Create a New Team
+    <span class="oi oi-plus" aria-hidden="true"></span> New Team
 </button>
 
 @if (newTeam != default)

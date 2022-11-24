@@ -14,7 +14,6 @@ namespace FrostAura.Clients.PointsKeeper.Pages
 	public partial class Dashboard : ComponentBase
     {
         private List<Team>? teams;
-        private Point? newPoint;
         private List<FormPropertyEffect> formPropertyEffects = new List<FormPropertyEffect>();
 
         protected override void OnInitialized()
@@ -34,43 +33,6 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 .ToList();
             formPropertyEffects.Clear();
             formPropertyEffects.Add(new EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>("PlayerId", players));
-            newPoint = new Point();
-        }
-
-        private async Task OnResetPointsAsync()
-        {
-            bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", new[] { $"Are you sure you want to reset all points and restart the system? Players, teams and donors will be unaffected." });
-
-            if (confirmed)
-            {
-                dbContext.Points.RemoveRange(dbContext.Points);
-                await dbContext.SaveChangesAsync();
-                OnInitialized();
-            }
-        }
-
-        private async Task OnCapturePointAsync(Point validPoint)
-        {
-            // Savety check for adding the same points twice.
-            var wasLastPointsCapturedIdentical = (await dbContext
-                .Points
-                .FirstOrDefaultAsync(p => p.Count == validPoint.Count && p.PlayerId == validPoint.PlayerId)) != null;
-
-            if(wasLastPointsCapturedIdentical)
-            {
-                var player = await dbContext.Players.SingleAsync(p => p.Id == validPoint.PlayerId);
-                bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", new[] { $"Are you sure you want to add {validPoint.Count} points for player '{player.Name}' twice in a row?" });
-
-                if (!confirmed)
-                {
-                    newPoint.Count = 0;
-                    return;
-                }
-            }
-
-            await dbContext.Points.AddAsync(validPoint);
-            await dbContext.SaveChangesAsync();
-            OnInitialized();
         }
     }
 }

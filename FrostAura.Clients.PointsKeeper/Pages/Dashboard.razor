@@ -23,18 +23,6 @@ else if (teams.Any(t => !t.Players.Any(p => !p.Deleted)))
 else
 {
         <div class="container">
-            <div class="header">
-                <h1>Capture Points</h1>
-                <DynamicForm TDataContextType="Point"
-                             DataContext="newPoint"
-                             OnValidSubmit="OnCapturePointAsync"
-                             SubmitButtonText="Capture Points"
-                             PropertyEffects="formPropertyEffects"
-                             ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
-                <button @onclick="OnResetPointsAsync">
-                    <span class="oi oi-ban" aria-hidden="true"></span> Reset Points
-                </button>
-            </div>
             <div class="content">
                 Charity stats go here...
             </div>

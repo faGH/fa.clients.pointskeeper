@@ -1,0 +1,33 @@
+﻿@page "/points"
+
+<PageTitle>Capture Points</PageTitle>
+
+@using FrostAura.Clients.PointsKeeper.Data
+@using FrostAura.Clients.PointsKeeper.Shared.Models
+@using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm
+@inject PointsKeeperDbContext dbContext
+@inject IJSRuntime JsRuntime
+
+<h1>Capture Points</h1>
+<p>Capture points for a single player that will then reflect on the dashboard.</p>
+
+@if (players == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!players.Any(p => !p.Deleted))
+{
+    <p>No players yet. Start by navigating to the Teams tab and create some.</p>
+}
+else
+{
+    <DynamicForm TDataContextType="Point"
+                 DataContext="newPoint"
+                 OnValidSubmit="OnCapturePointAsync"
+                 SubmitButtonText="Capture Points"
+                 PropertyEffects="formPropertyEffects"
+                 ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
+    <button @onclick="OnResetPointsAsync">
+        <span class="oi oi-ban" aria-hidden="true"></span> Reset Points
+    </button>
+}
