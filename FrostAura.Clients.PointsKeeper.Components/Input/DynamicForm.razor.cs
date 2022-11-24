@@ -1,6 +1,6 @@
 ﻿using FrostAura.Clients.PointsKeeper.Components.Abstractions;
-using FrostAura.Clients.PointsKeeper.Components.Attributes.Rendering;
 using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm;
+using FrostAura.Clients.PointsKeeper.Shared.Attributes.Rendering;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Newtonsoft.Json;

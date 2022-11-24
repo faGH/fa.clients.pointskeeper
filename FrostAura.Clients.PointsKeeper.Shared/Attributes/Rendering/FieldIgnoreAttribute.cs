@@ -1,4 +1,4 @@
-﻿namespace FrostAura.Clients.PointsKeeper.Components.Attributes.Rendering
+﻿namespace FrostAura.Clients.PointsKeeper.Shared.Attributes.Rendering
 {
   /// <summary>
   /// Attribute to mark a field as ignored with respect to the dynamic field form generation.

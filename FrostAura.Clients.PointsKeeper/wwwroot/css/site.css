@@ -68,5 +68,12 @@ span.io {
 }
 
 div.title-bar {
-    font-size: small;
+    font-size: 70%;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: end !important;
 }
+
+    div.title-bar > div {
+        display: inline-block !important;
+    }
