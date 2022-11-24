@@ -3,6 +3,7 @@ using System;
 using FrostAura.Clients.PointsKeeper.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FrostAura.Clients.PointsKeeper.Data.Migrations.PointsKeeperDb
 {
     [DbContext(typeof(PointsKeeperDbContext))]
-    partial class PointsKeeperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221124154752_AddingDonorsDbMigration")]
+    partial class AddingDonorsDbMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");

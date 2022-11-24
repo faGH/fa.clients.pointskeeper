@@ -19,5 +19,6 @@ namespace FrostAura.Clients.PointsKeeper.Data
     public virtual DbSet<Team> Teams { get; set; }
     public virtual DbSet<Player> Players { get; set; }
     public virtual DbSet<Point> Points { get; set; }
-  }
+    public virtual DbSet<Donor> Donors { get; set; }
+    }
 }
