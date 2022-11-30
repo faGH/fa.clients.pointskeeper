@@ -77,6 +77,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
       // Register default form control mappings.
       RegisterRendererTypeControl<string, InputText>();
       RegisterRendererTypeControl<int, InputNumber<int>>();
+      RegisterRendererTypeControl<double, InputNumber<double>>();
       RegisterRendererTypeControl<DateTime, InputDate<DateTime>>();
       RegisterRendererTypeControl<bool, InputCheckbox>();
 

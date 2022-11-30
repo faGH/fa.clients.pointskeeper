@@ -24,7 +24,7 @@ else
 {
         <div class="container">
             <div class="content">
-                <div class="total">R @(GetTotalDonationsPerPoint() * GetTotalPoints())</div>
+                <div class="total">R @(Math.Round(GetTotalDonationsPerPoint() * GetTotalPoints(), 2))</div>
                 <div class="points">@GetTotalPoints() Points</div>
             </div>
             <div class="footer">

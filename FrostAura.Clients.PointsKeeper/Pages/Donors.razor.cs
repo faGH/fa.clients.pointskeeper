@@ -4,6 +4,7 @@ using FrostAura.Clients.PointsKeeper.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using FrostAura.Clients.PointsKeeper.Data;
 using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm;
+using Microsoft.EntityFrameworkCore;
 
 namespace FrostAura.Clients.PointsKeeper.Pages
 {
@@ -79,7 +80,11 @@ namespace FrostAura.Clients.PointsKeeper.Pages
 
         private int GetTotalPoints()
         {
-            return dbContext.Points.Sum(p => p.Count);
+            return dbContext
+                .Points
+                .Include(p => p.Player)
+                .Where(p => !p.Deleted && !p.Player.Deleted)
+                .Sum(p => p.Count);
         }
     }
 }

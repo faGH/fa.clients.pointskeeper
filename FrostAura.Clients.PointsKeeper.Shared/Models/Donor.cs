@@ -13,7 +13,7 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
   public class Donor : BaseNamedEntity
   {
     [Required]
-    [Range(1, int.MaxValue, ErrorMessage = "A valid amount per point is required.")]
-    public int Amount { get; set; }
+    [Range(0.1, int.MaxValue, ErrorMessage = "A valid amount per point is required greater than 0.1.")]
+    public double Amount { get; set; }
   }
 }

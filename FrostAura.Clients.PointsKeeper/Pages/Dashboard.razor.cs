@@ -20,8 +20,8 @@ namespace FrostAura.Clients.PointsKeeper.Pages
         {
             teams = dbContext
                 .Teams
-                .Include(t => t.Players)
-                .ThenInclude(p => p.Points)
+                .Include(t => t.Players.Where(p => !p.Deleted))
+                .ThenInclude(p => p.Points.Where(p => !p.Deleted))
                 .Where(t => !t.Deleted)
                 .OrderBy(t => t.Name)
                 .ToList();
@@ -41,10 +41,11 @@ namespace FrostAura.Clients.PointsKeeper.Pages
             await base.OnAfterRenderAsync(firstRender);
         }
 
-        private int GetTotalDonationsPerPoint()
+        private double GetTotalDonationsPerPoint()
         {
             return dbContext
                 .Donors
+                .Where(d => !d.Deleted)
                 .Sum(d => d.Amount);
         }
 
@@ -52,6 +53,8 @@ namespace FrostAura.Clients.PointsKeeper.Pages
         {
             return dbContext
                 .Points
+                .Include(p => p.Player)
+                .Where(p => !p.Deleted && !p.Player.Deleted)
                 .Sum(p => p.Count);
         }
     }
