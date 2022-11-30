@@ -92,12 +92,17 @@ fa-dynamic-field select {
     max-width: 200px;
     width: 100%;
     border: none;
+    border-radius: 0;
     border-bottom: 2px solid black;
     padding: 0 20px;
     -webkit-appearance: none;
 }
 
-button:not(.icon) {
+button {
+    border-radius: 0;
+}
+
+button:not(.icon):not(.navbar-toggler) {
     width: 150px;
     margin-bottom: 10px;
 }
