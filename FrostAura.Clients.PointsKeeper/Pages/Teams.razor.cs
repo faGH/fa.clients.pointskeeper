@@ -9,6 +9,7 @@ namespace FrostAura.Clients.PointsKeeper.Pages
 {
 	public partial class Teams : ComponentBase
     {
+        private const int MAX_TEAMS_COUNT = 2;
         private List<Team>? teams;
         private Team? newTeam;
         private Team? editTeam;
@@ -36,6 +37,13 @@ namespace FrostAura.Clients.PointsKeeper.Pages
             Team? existingTeam = dbContext
                 .Teams
                 .FirstOrDefault(t => t.Name.ToLower() == validNewTeam.Name.ToLower());
+
+            if(dbContext.Teams.Count(t => !t.Deleted) >= MAX_TEAMS_COUNT)
+            {
+                OnInitialized();
+                await JsRuntime.InvokeAsync<bool>("alert", new[] { $"The max of {MAX_TEAMS_COUNT} teams already exist." });
+                return;
+            }
 
             if(existingTeam == default)
             {

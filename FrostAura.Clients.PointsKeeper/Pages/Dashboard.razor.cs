@@ -45,7 +45,15 @@ namespace FrostAura.Clients.PointsKeeper.Pages
         {
             return dbContext
                 .Donors
-                .Where(d => !d.Deleted)
+                .Where(d => !d.OnceOff && !d.Deleted)
+                .Sum(d => d.Amount);
+        }
+
+        private double GetTotalOnceOffDonations()
+        {
+            return dbContext
+                .Donors
+                .Where(d => d.OnceOff && !d.Deleted)
                 .Sum(d => d.Amount);
         }
 

@@ -95,7 +95,6 @@ fa-dynamic-field select {
     border-radius: 0;
     border-bottom: 2px solid black;
     padding: 0 20px;
-    -webkit-appearance: none;
 }
 
 button {
@@ -145,4 +144,8 @@ button.icon {
 .points {
     font-size: 125%;
     color: gray;
+}
+
+.fa-invalid {
+    color: crimson;
 }

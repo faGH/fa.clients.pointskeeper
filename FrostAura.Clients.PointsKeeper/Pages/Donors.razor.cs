@@ -78,8 +78,10 @@ namespace FrostAura.Clients.PointsKeeper.Pages
             }
         }
 
-        private int GetTotalPoints()
+        private int GetTotalPointsToConsider(bool isOnceOffDonor = false)
         {
+            if (isOnceOffDonor) return 1;
+
             return dbContext
                 .Points
                 .Include(p => p.Player)
