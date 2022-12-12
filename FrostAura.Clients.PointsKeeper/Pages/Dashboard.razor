@@ -8,71 +8,21 @@
 @inject PointsKeeperDbContext dbContext
 @inject IJSRuntime JsRuntime
 
-@if (teams == null)
+@if (points == null)
 {
     <p><em>Loading...</em></p>
 }
-else if (!teams.Any(t => !t.Deleted))
+else if (!points.Any())
 {
-    <p>No teams yet. Start by navigating to the Teams tab and create some.</p>
-}
-else if (teams.Any(t => !t.Players.Any(p => !p.Deleted)))
-{
-    <p>No players yet. Start by navigating to the Players tab and create some.</p>
+    <hr>
+    <p>No points yet. Let's capture some!</p>
 }
 else
 {
-        <div class="container">
-            <div class="content">
-                <div class="total">R @(Math.Round(GetTotalDonationsPerPoint() * GetTotalPoints() + GetTotalOnceOffDonations(), 2))</div>
-                <div class="points">@GetTotalPoints() Points | @GetTotalOnceOffDonations() Once-Off</div>
-            </div>
-            <div class="footer">
-                <div class="teams">
-                    <h3>Teams</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Team Name</th>
-                                <th>Points</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var team in teams
-                                     .OrderByDescending(t => t.Players.SelectMany(p => p.Points).Sum(pt => pt.Count))
-                                     .ThenBy(p => p.Name))
-                            {
-                                <tr>
-                                    <td>@team.Name</td>
-                                    <td>@team.Players.SelectMany(p => p.Points).Sum(pt => pt.Count)</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="players">
-                    <h3>Players</h3>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Player Name</th>
-                                <th>Points</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var player in teams
-                                     .SelectMany(t => t.Players)
-                                     .OrderByDescending(p => p.Points.Sum(pt => pt.Count))
-                                     .ThenBy(p => p.Name))
-                            {
-                                <tr>
-                                    <td>@player.Name</td>
-                                    <td>@player.Points.Sum(p => p.Count)</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+    <div class="container">
+        <div class="content">
+            <div class="total">R @(Math.Round(GetTotalDonationsPerPoint() * GetTotalPoints() + GetTotalOnceOffDonations(), 2))</div>
+            <div class="points">@GetTotalPoints() Points | @GetTotalOnceOffDonations() Once-Off</div>
         </div>
+    </div>
 }

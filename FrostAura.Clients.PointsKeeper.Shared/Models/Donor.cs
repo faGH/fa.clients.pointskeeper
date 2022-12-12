@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
@@ -15,6 +16,7 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
     [Range(0.1, int.MaxValue, ErrorMessage = "A valid amount per point is required greater than 0.1.")]
     public double Amount { get; set; }
     [Required]
+    [Description("Are Donations Once-Off?")]
     public bool OnceOff { get; set; }
   }
 }

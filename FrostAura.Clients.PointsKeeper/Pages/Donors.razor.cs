@@ -84,9 +84,10 @@ namespace FrostAura.Clients.PointsKeeper.Pages
 
             return dbContext
                 .Points
-                .Include(p => p.Player)
-                .Where(p => !p.Deleted && !p.Player.Deleted)
-                .Sum(p => p.Count);
+                .Include(p => p.Player1)
+                .Include(p => p.Player2)
+                .Where(p => !p.Deleted && !p.Player1.Deleted && !p.Player2.Deleted)
+                .Sum(p => p.Player1Score + p.Player2Score);
         }
     }
 }

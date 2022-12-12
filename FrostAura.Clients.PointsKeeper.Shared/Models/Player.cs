@@ -26,6 +26,7 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
     /// <summary>
     /// Collection of points the respective player has aquired.
     /// </summary>
+    [NotMapped]
     public virtual ICollection<Point> Points { get; set; } = new List<Point>();
   }
 }

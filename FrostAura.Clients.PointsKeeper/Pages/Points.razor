@@ -9,7 +9,43 @@
 @inject IJSRuntime JsRuntime
 
 <h1>Capture Points</h1>
-<p>Capture points for a single player that will then reflect on the dashboard.</p>
+<p>Capture points for a single player that will then reflect on the dashboard. Showing the most recent 5 points captured.</p>
+
+@if (points == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!points.Any())
+{
+    <hr>
+    <p>No points yet. Let's capture some!</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Player 1</th>
+                <th>Points</th>
+                <th>Player 2</th>
+                <th>Points</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var point in points)
+            {
+                <tr>
+                    <td>@point.Player1.Name</td>
+                    <td>@point.Player1Score</td>
+                    <td>@point.Player2.Name</td>
+                    <td>@point.Player2Score</td>
+                    <td>@point.TimeStamp.ToString("H:mm:ss, MMMM dd, yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @if (players == null)
 {

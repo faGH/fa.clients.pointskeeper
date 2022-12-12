@@ -1,13 +1,8 @@
-﻿using System;
-using System.Net.NetworkInformation;
-using FrostAura.Clients.PointsKeeper.Shared.Models;
+﻿using FrostAura.Clients.PointsKeeper.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using FrostAura.Clients.PointsKeeper.Data;
-using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm;
 using Microsoft.EntityFrameworkCore;
 using FrostAura.Clients.PointsKeeper.Components.Models;
 using FrostAura.Clients.PointsKeeper.Components.Input;
-using System.Numerics;
 
 namespace FrostAura.Clients.PointsKeeper.Pages
 {
@@ -16,9 +11,18 @@ namespace FrostAura.Clients.PointsKeeper.Pages
         private List<Player>? players;
         private Point? newPoint;
         private List<FormPropertyEffect> formPropertyEffects = new List<FormPropertyEffect>();
+        private List<Point>? points;
 
         protected override void OnInitialized()
         {
+            points = dbContext
+                .Points
+                .Include(p => p.Player1)
+                .Include(p => p.Player2)
+                .Where(p => !p.Deleted)
+                .OrderByDescending(p => p.TimeStamp)
+                .Take(5)
+                .ToList();
             players = dbContext
                 .Players
                 .Where(p => !p.Deleted)
@@ -29,7 +33,8 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 .ToList();
 
             formPropertyEffects.Clear();
-            formPropertyEffects.Add(new EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>("PlayerId", basePlayers));
+            formPropertyEffects.Add(new EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>(nameof(Point.Player1Id), basePlayers));
+            formPropertyEffects.Add(new EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>(nameof(Point.Player2Id), basePlayers));
             newPoint = new Point();
         }
 
@@ -52,17 +57,18 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 .Points
                 .OrderByDescending(p => p.TimeStamp)
                 .FirstOrDefaultAsync();
-            var wasLastPointsCapturedIdentical = lastCapturedPoints?.Count == validPoint.Count &&
-                lastCapturedPoints?.PlayerId == validPoint.PlayerId;
+            var wasLastPointsCapturedIdentical = lastCapturedPoints?.Player1Score == validPoint.Player1Score &&
+                lastCapturedPoints?.Player1Id == validPoint.Player1Id &&
+                lastCapturedPoints?.Player2Score == validPoint.Player2Score &&
+                lastCapturedPoints?.Player2Id == validPoint.Player2Id;
 
             if(wasLastPointsCapturedIdentical)
             {
-                var player = await dbContext.Players.SingleAsync(p => p.Id == validPoint.PlayerId);
-                bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", new[] { $"Are you sure you want to add {validPoint.Count} points for player '{player.Name}' twice in a row?" });
+                bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", new[] { $"Are you sure you want to add the same points twice in a row?" });
 
                 if (!confirmed)
                 {
-                    newPoint.Count = 0;
+                    OnInitialized();
                     return;
                 }
             }
@@ -70,6 +76,7 @@ namespace FrostAura.Clients.PointsKeeper.Pages
             await dbContext.Points.AddAsync(validPoint);
             await dbContext.SaveChangesAsync();
             OnInitialized();
+            await JsRuntime.InvokeAsync<bool>("alert", new[] { $"Points captures successfully." });
         }
     }
 }

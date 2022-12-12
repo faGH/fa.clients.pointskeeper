@@ -1,29 +1,24 @@
-﻿using System;
-using System.Net.NetworkInformation;
-using FrostAura.Clients.PointsKeeper.Shared.Models;
+﻿using FrostAura.Clients.PointsKeeper.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using FrostAura.Clients.PointsKeeper.Data;
-using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm;
 using Microsoft.EntityFrameworkCore;
 using FrostAura.Clients.PointsKeeper.Components.Models;
 using FrostAura.Clients.PointsKeeper.Components.Input;
-using System.Numerics;
 
 namespace FrostAura.Clients.PointsKeeper.Pages
 {
 	public partial class Dashboard : ComponentBase
     {
-        private List<Team>? teams;
         private List<FormPropertyEffect> formPropertyEffects = new List<FormPropertyEffect>();
+        private List<Point>? points;
 
         protected override void OnInitialized()
         {
-            teams = dbContext
-                .Teams
-                .Include(t => t.Players.Where(p => !p.Deleted))
-                .ThenInclude(p => p.Points.Where(p => !p.Deleted))
-                .Where(t => !t.Deleted)
-                .OrderBy(t => t.Name)
+            points = dbContext
+                .Points
+                .Include(p => p.Player1)
+                .Include(p => p.Player2)
+                .Where(p => !p.Deleted)
+                .OrderByDescending(p => p.TimeStamp)
                 .ToList();
             var players = dbContext
                 .Players
@@ -61,9 +56,10 @@ namespace FrostAura.Clients.PointsKeeper.Pages
         {
             return dbContext
                 .Points
-                .Include(p => p.Player)
-                .Where(p => !p.Deleted && !p.Player.Deleted)
-                .Sum(p => p.Count);
+                .Include(p => p.Player1)
+                .Include(p => p.Player2)
+                .Where(p => !p.Deleted && !p.Player1.Deleted && !p.Player2.Deleted)
+                .Sum(p => p.Player1Score + p.Player2Score);
         }
     }
 }
