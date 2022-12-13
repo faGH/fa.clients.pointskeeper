@@ -1,11 +1,12 @@
 using FrostAura.Clients.PointsKeeper.Components.Interfaces.Resources;
 using FrostAura.Clients.PointsKeeper.Components.Services.Resources;
-using FrostAura.Clients.PointsKeeper.Data;
-using FrostAura.Clients.PointsKeeper.Components.Models;
 using FrostAura.Clients.PointsKeeper.Data.Extensions;
-using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
+var imagesDirectory = Path.Combine(Directory.GetCurrentDirectory(), @"images");
+
+if (!Directory.Exists(imagesDirectory)) Directory.CreateDirectory(imagesDirectory);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -25,6 +26,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(imagesDirectory),
+    RequestPath = new PathString("/images")
+});
 app.UseRouting();
 app.UseFrostAuraResources<Program>();
 

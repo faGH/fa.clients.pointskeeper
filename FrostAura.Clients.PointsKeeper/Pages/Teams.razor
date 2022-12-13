@@ -25,6 +25,7 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Edit</th>
@@ -35,6 +36,7 @@ else
             @foreach (var team in teams)
             {
                 <tr>
+                    <td><img class="image-picker-image" src="@GetImageSrc(team)" /></td>
                     <td>@team.Id</td>
                     <td>@team.Name</td>
                     <td><button class="icon" @onclick="() => FocusOnEditTeam(team)"><span class="oi oi-pencil" aria-hidden="true"></span></button></td>
@@ -45,7 +47,7 @@ else
     </table>
 }
 
-<button @onclick="FocusOnCreateNewTeam">
+<button @onclick="FocusOnCreateNewTeam" class="btn btn-primary">
     <span class="oi oi-plus" aria-hidden="true"></span> New Team
 </button>
 
@@ -57,6 +59,7 @@ else
                  DataContext="newTeam"
                  OnValidSubmit="OnAddTeamAsync"
                  SubmitButtonText="Add Team"
+                 PropertyEffects="formPropertyEffects"
                  ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
 }
 
@@ -68,5 +71,6 @@ else
                  DataContext="editTeam"
                  OnValidSubmit="OnEditTeamAsync"
                  SubmitButtonText="Save Team"
+                 PropertyEffects="formPropertyEffects"
                  ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
 }

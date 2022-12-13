@@ -1,9 +1,6 @@
-﻿using System;
-using System.Net.NetworkInformation;
-using FrostAura.Clients.PointsKeeper.Shared.Models;
+﻿using FrostAura.Clients.PointsKeeper.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using FrostAura.Clients.PointsKeeper.Data;
-using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm;
+using FrostAura.Clients.PointsKeeper.Components.Models;
 
 namespace FrostAura.Clients.PointsKeeper.Pages
 {
@@ -13,9 +10,11 @@ namespace FrostAura.Clients.PointsKeeper.Pages
         private List<Team>? teams;
         private Team? newTeam;
         private Team? editTeam;
+        private List<FormPropertyEffect> formPropertyEffects = new List<FormPropertyEffect>();
 
         protected override void OnInitialized()
         {
+            formPropertyEffects.Add(new ImagePickerFormPropertyEffect(nameof(Team.Logo)));
             teams = dbContext
                 .Teams
                 .Where(t => !t.Deleted)
@@ -83,6 +82,15 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 await dbContext.SaveChangesAsync();
                 OnInitialized();
             }
+        }
+
+        private string GetImageSrc(Team team)
+        {
+            var placeholder = "https://via.placeholder.com/256x256";
+
+            if (string.IsNullOrWhiteSpace(team.Logo)) return placeholder;
+
+            return team.Logo;
         }
     }
 }

@@ -9,7 +9,7 @@
 @inject IJSRuntime JsRuntime
 
 <h1>Capture Points</h1>
-<p>Capture points for a single player that will then reflect on the dashboard. Showing the most recent 5 points captured.</p>
+<p>Capture points for a single match (2x players) that will then reflect on the dashboard. Showing the most recent 5 points captured.</p>
 
 @if (points == null)
 {
@@ -63,7 +63,7 @@ else
                  SubmitButtonText="Capture Points"
                  PropertyEffects="formPropertyEffects"
                  ValidationSummaryPosition="ValidationSummaryPosition.FormBottom"></DynamicForm>
-    <button @onclick="OnResetPointsAsync">
+    <button @onclick="OnResetPointsAsync" class="btn btn-danger">
         <span class="oi oi-ban" aria-hidden="true"></span> Reset Points
     </button>
 }

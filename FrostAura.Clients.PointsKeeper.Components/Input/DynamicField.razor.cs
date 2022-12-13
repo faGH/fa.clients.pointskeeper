@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.CompilerServices;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
+using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,6 +21,11 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
   /// </summary>
   public partial class DynamicField : BaseComponent<DynamicField>
   {
+        /// <summary>
+    /// JavaScript runtime engine.
+    /// </summary>
+    [Inject]
+    public IJSRuntime JsRuntime { get; set; }
     /// <summary>
     /// Collection of form property effects to apply.
     /// </summary>
@@ -64,7 +71,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
     /// <summary>
     /// A unique field id for this particular fully qualified property name.
     /// </summary>
-    private string _fieldId => $"{Model.GetType()}.{PropertyInformation.Name}";
+    private string _fieldId => $"{Model.GetType()}-{PropertyInformation.Name}";
     /// <summary>
     /// Collection of types that support being rendered by the dynamic field system together with which component to render for the type.
     /// </summary>
@@ -125,9 +132,11 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
 
       return builder =>
       {
-        builder.OpenComponent(0, dynamicValidationMessageType);
-        builder.AddAttribute(1, nameof(DynamicValidationMessage<object>.PropertyInformation), PropertyInformation);
-        builder.AddAttribute(2, nameof(DynamicValidationMessage<object>.Model), Model);
+        var sequence = 0;
+
+        builder.OpenComponent(sequence++, dynamicValidationMessageType);
+        builder.AddAttribute(sequence++, nameof(DynamicValidationMessage<object>.PropertyInformation), PropertyInformation);
+        builder.AddAttribute(sequence++, nameof(DynamicValidationMessage<object>.Model), Model);
         builder.CloseComponent();
       };
     }
@@ -154,27 +163,9 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
 
       foreach(var effect in effectsToProcess)
       {
-        var parsedEffect = ((EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>)effect);
-        componentType = parsedEffect.ControlToRenderType;
-        componentType = typeof(SelectInputCustom<int>);
-        var constants = Expression.Constant(Model, Model.GetType());
-        var exps = Expression.Property(constants, PropertyInformation.Name);
-        var lambdas = Expression.Lambda(exps);
-        var castedLambdas = (Expression<Func<TValue>>)lambdas;
-        var currentValues = (TValue)PropertyInformation.GetValue(Model);
+        TryProcessEntitySelectFormPropertyEffect<TValue>(effect, builder);
+        TryProcessImagePickerFormPropertyEffect<TValue>(effect, builder);
 
-        builder.OpenComponent(0, componentType);
-        builder.AddAttribute(1, "id", _fieldId);
-        // The following is a replacement for the bind-value property.
-        builder.AddAttribute(2, nameof(InputBase<TValue>.Value), currentValues);
-        builder.AddAttribute(3, nameof(InputBase<TValue>.ValueExpression), castedLambdas);
-        builder.AddAttribute(4, nameof(InputBase<TValue>.ValueChanged), RuntimeHelpers.TypeCheck(
-            EventCallback.Factory.Create(
-                this,
-                EventCallback.Factory.CreateInferred(this, val => PropertyInformation.SetValue(Model, val),
-                (TValue)PropertyInformation.GetValue(Model)))));
-        builder.AddAttribute(5, "DataSource", parsedEffect.DataSource);
-        builder.CloseComponent();
         return;
       }
 
@@ -183,18 +174,112 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
       var lambda = Expression.Lambda(exp);
       var castedLambda = (Expression<Func<TValue>>)lambda;
       var currentValue = (TValue)PropertyInformation.GetValue(Model);
+      var sequence = 0;
 
-      builder.OpenComponent(0, componentType);
-      builder.AddAttribute(1, "id", _fieldId);
+      builder.OpenComponent(sequence++, componentType);
+      builder.AddAttribute(sequence++, "id", _fieldId);
+      builder.AddAttribute(sequence++, "class", componentType == typeof(InputCheckbox) ? "form-check" : "form-control");
       // The following is a replacement for the bind-value property.
-      builder.AddAttribute(1, nameof(InputBase<TValue>.Value), currentValue);
-      builder.AddAttribute(2, nameof(InputBase<TValue>.ValueExpression), castedLambda);
-      builder.AddAttribute(3, nameof(InputBase<TValue>.ValueChanged), RuntimeHelpers.TypeCheck(
+      builder.AddAttribute(sequence++, nameof(InputBase<TValue>.Value), currentValue);
+      builder.AddAttribute(sequence++, nameof(InputBase<TValue>.ValueExpression), castedLambda);
+      builder.AddAttribute(sequence++, nameof(InputBase<TValue>.ValueChanged), RuntimeHelpers.TypeCheck(
           EventCallback.Factory.Create(
               this,
               EventCallback.Factory.CreateInferred(this, val => PropertyInformation.SetValue(Model, val),
               (TValue)PropertyInformation.GetValue(Model)))));
       builder.CloseComponent();
+    }
+
+    private void TryProcessImagePickerFormPropertyEffect<TValue>(FormPropertyEffect effect, RenderTreeBuilder builder)
+    {
+        if (!(effect is ImagePickerFormPropertyEffect)) return;
+
+        var parsedEffect = ((ImagePickerFormPropertyEffect)effect);
+        var componentType = parsedEffect.ControlToRenderType;
+        var constants = Expression.Constant(Model, Model.GetType());
+        var exps = Expression.Property(constants, PropertyInformation.Name);
+        var lambdas = Expression.Lambda(exps);
+        var currentValue = (TValue)PropertyInformation.GetValue(Model);
+        var sequence = 0;
+
+        // The img element to display the content.
+        builder.OpenElement(sequence++, "img");
+        builder.AddAttribute(sequence++, "class", "image-picker-image");
+        builder.AddAttribute(sequence++, "id", $"{_fieldId}_img");
+        builder.AddAttribute(sequence++, "src", string.IsNullOrWhiteSpace(currentValue?.ToString()) ? parsedEffect.DefaultUrl : currentValue?.ToString());
+        builder.AddAttribute(sequence++, "onload", EventCallback.Factory.Create(
+            this,
+            EventCallback.Factory.CreateInferred<ProgressEventArgs>(
+                this,
+                args => HandleImageLoadedAsync(args),
+                default)
+        ));
+        builder.CloseElement();
+
+        // The file input component itself.
+        builder.OpenComponent(sequence++, componentType);
+        builder.AddAttribute(sequence++, "id", _fieldId);
+        // The following is a replacement for the bind-value property.
+        builder.AddAttribute(sequence++, nameof(InputFile.OnChange), EventCallback.Factory.Create(
+                this,
+                EventCallback.Factory.CreateInferred<InputFileChangeEventArgs>(
+                    this,
+                    args => HandleSetImageValue(args),
+                    default)
+            ));
+        builder.CloseComponent();
+    }
+
+    private async Task HandleImageLoadedAsync(ProgressEventArgs args)
+    {
+        var imageElementId = $"{_fieldId}_img";
+        var command = $"document.getElementById('{imageElementId}').onclick = () => document.getElementById('{_fieldId}').click()";
+
+        await JsRuntime.InvokeVoidAsync("eval", command);
+    }
+
+    private async Task HandleSetImageValue(InputFileChangeEventArgs args)
+    {
+        var imagesDirectoryName = "images";
+        var baseUrl = Path.Combine("https://localhost:7093", imagesDirectoryName);
+        var directory = Path.Combine(Directory.GetCurrentDirectory(), imagesDirectoryName);
+        var id = Guid.NewGuid().ToString();
+        var filename = $"{directory}/{id}.png";
+
+        await using FileStream fs = new(filename, FileMode.Create);
+        await args.File.OpenReadStream(maxAllowedSize: int.MaxValue).CopyToAsync(fs);
+
+        var url = $"{baseUrl}/{id}.png";
+        PropertyInformation.SetValue(Model, url);
+    }
+
+    private void TryProcessEntitySelectFormPropertyEffect<TValue>(FormPropertyEffect effect, RenderTreeBuilder builder)
+    {
+        if(!(effect is EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>)) return;
+
+        var parsedEffect = ((EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>)effect);
+        var componentType = parsedEffect.ControlToRenderType;
+        componentType = typeof(SelectInputCustom<int>);
+        var constants = Expression.Constant(Model, Model.GetType());
+        var exps = Expression.Property(constants, PropertyInformation.Name);
+        var lambdas = Expression.Lambda(exps);
+        var castedLambdas = (Expression<Func<TValue>>)lambdas;
+        var currentValue = (TValue)PropertyInformation.GetValue(Model);
+        var sequence = 0;
+
+        builder.OpenComponent(sequence++, componentType);
+        builder.AddAttribute(sequence++, "id", _fieldId);
+        builder.AddAttribute(sequence++, "class", "form-control");
+        // The following is a replacement for the bind-value property.
+        builder.AddAttribute(sequence++, nameof(InputBase<TValue>.Value), currentValue);
+        builder.AddAttribute(sequence++, nameof(InputBase<TValue>.ValueExpression), castedLambdas);
+        builder.AddAttribute(sequence++, nameof(InputBase<TValue>.ValueChanged), RuntimeHelpers.TypeCheck(
+            EventCallback.Factory.Create(
+                this,
+                EventCallback.Factory.CreateInferred(this, val => PropertyInformation.SetValue(Model, val),
+                (TValue)PropertyInformation.GetValue(Model)))));
+        builder.AddAttribute(sequence++, "DataSource", parsedEffect.DataSource);
+        builder.CloseComponent();
     }
 
     /// <summary>
@@ -221,11 +306,13 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
       for (int i = 0; i < properties.Length; i++)
       {
         var property = properties[i];
-        builder.OpenComponent(0, typeof(DynamicField));
-        builder.AddAttribute(1, nameof(EnableDemoMode), EnableDemoMode);
-        builder.AddAttribute(2, nameof(PropertyInformation), property);
-        builder.AddAttribute(3, nameof(Model), nestedModel);
-        builder.AddAttribute(4, nameof(PropertyEffects), PropertyEffects);
+        var sequence = 0;
+
+        builder.OpenComponent(sequence++, typeof(DynamicField));
+        builder.AddAttribute(sequence++, nameof(EnableDemoMode), EnableDemoMode);
+        builder.AddAttribute(sequence++, nameof(PropertyInformation), property);
+        builder.AddAttribute(sequence++, nameof(Model), nestedModel);
+        builder.AddAttribute(sequence++, nameof(PropertyEffects), PropertyEffects);
         builder.CloseComponent();
       }
     }

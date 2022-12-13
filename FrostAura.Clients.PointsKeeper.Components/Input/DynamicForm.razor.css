@@ -14,3 +14,13 @@ fa-dynamic-field > div {
     padding-bottom: 15px;
     padding-top: 5px;
 }
+
+fa-dynamic-field input[type=file] {
+    display: none;
+}
+
+fa-dynamic-field .image-picker-image {
+    height: 75px;
+    border: 2px solid grey;
+    cursor: pointer;
+}

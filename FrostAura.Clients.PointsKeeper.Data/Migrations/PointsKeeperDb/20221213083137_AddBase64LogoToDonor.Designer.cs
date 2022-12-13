@@ -3,6 +3,7 @@ using System;
 using FrostAura.Clients.PointsKeeper.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FrostAura.Clients.PointsKeeper.Data.Migrations.PointsKeeperDb
 {
     [DbContext(typeof(PointsKeeperDbContext))]
-    partial class PointsKeeperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221213083137_AddBase64LogoToDonor")]
+    partial class AddBase64LogoToDonor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -26,12 +29,12 @@ namespace FrostAura.Clients.PointsKeeper.Data.Migrations.PointsKeeperDb
                     b.Property<double>("Amount")
                         .HasColumnType("REAL");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Logo")
+                    b.Property<string>("Base64Icon")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -115,10 +118,6 @@ namespace FrostAura.Clients.PointsKeeper.Data.Migrations.PointsKeeperDb
 
                     b.Property<bool>("Deleted")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Logo")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()

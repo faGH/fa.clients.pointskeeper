@@ -12,11 +12,22 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
   [DebuggerDisplay("Name: {Name}")]
   public class Donor : BaseNamedEntity
   {
+    /// <summary>
+    /// The amount to donate.
+    /// </summary>
     [Required]
     [Range(0.1, int.MaxValue, ErrorMessage = "A valid amount per point is required greater than 0.1.")]
     public double Amount { get; set; }
+    /// <summary>
+    /// Whether the donation is once-off (True) or per-point (False).
+    /// </summary>
     [Required]
     [Description("Are Donations Once-Off?")]
     public bool OnceOff { get; set; }
+    /// <summary>
+    /// The donor's company logo.
+    /// </summary>
+    [Description("Company Logo")]
+    public string Logo { get; set; }
   }
 }

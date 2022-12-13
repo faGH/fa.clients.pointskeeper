@@ -1,10 +1,7 @@
-﻿using System;
-using System.Net.NetworkInformation;
-using FrostAura.Clients.PointsKeeper.Shared.Models;
+﻿using FrostAura.Clients.PointsKeeper.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using FrostAura.Clients.PointsKeeper.Data;
-using FrostAura.Clients.PointsKeeper.Components.Enums.DynamicForm;
 using Microsoft.EntityFrameworkCore;
+using FrostAura.Clients.PointsKeeper.Components.Models;
 
 namespace FrostAura.Clients.PointsKeeper.Pages
 {
@@ -13,9 +10,12 @@ namespace FrostAura.Clients.PointsKeeper.Pages
         private List<Donor>? donors;
         private Donor? newDonor;
         private Donor? editDonor;
+        private List<FormPropertyEffect> formPropertyEffects = new List<FormPropertyEffect>();
 
         protected override void OnInitialized()
         {
+            formPropertyEffects.Clear();
+            formPropertyEffects.Add(new ImagePickerFormPropertyEffect(nameof(Donor.Logo)));
             donors = dbContext
                 .Donors
                 .Where(t => !t.Deleted)
@@ -88,6 +88,15 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 .Include(p => p.Player2)
                 .Where(p => !p.Deleted && !p.Player1.Deleted && !p.Player2.Deleted)
                 .Sum(p => p.Player1Score + p.Player2Score);
+        }
+
+        private string GetImageSrc(Donor donor)
+        {
+            var placeholder = "https://via.placeholder.com/256x256";
+
+            if (string.IsNullOrWhiteSpace(donor.Logo)) return placeholder;
+
+            return donor.Logo;
         }
     }
 }

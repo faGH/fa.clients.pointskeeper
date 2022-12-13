@@ -86,17 +86,6 @@ div.header fa-dynamic-field {
         margin: 0 5px;
     }
 
-fa-dynamic-field input,
-fa-dynamic-field select {
-    height: 35px;
-    max-width: 200px;
-    width: 100%;
-    border: none;
-    border-radius: 0;
-    border-bottom: 2px solid black;
-    padding: 0 20px;
-}
-
 button {
     border-radius: 0;
 }
@@ -148,4 +137,13 @@ button.icon {
 
 .fa-invalid {
     color: crimson;
+}
+
+.image-picker-image {
+    height: 75px;
+    border: 2px solid grey;
+}
+
+tr {
+    vertical-align: middle;
 }
