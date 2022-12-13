@@ -241,7 +241,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
     private async Task HandleSetImageValue(InputFileChangeEventArgs args)
     {
         var imagesDirectoryName = "images";
-        var baseUrl = Path.Combine("https://localhost:7093", imagesDirectoryName);
+        var baseUrl = Path.Combine("https://pointskeeper.frostaura.net", imagesDirectoryName);
         var directory = Path.Combine(Directory.GetCurrentDirectory(), imagesDirectoryName);
         var id = Guid.NewGuid().ToString();
         var filename = $"{directory}/{id}.png";
