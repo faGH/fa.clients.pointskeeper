@@ -20,13 +20,6 @@ namespace FrostAura.Clients.PointsKeeper.Components.Banners
         [Inject]
         public IJSRuntime JsRuntime { get; set; }
 
-        protected override async Task OnInitializedAsync()
-        {
-            if (!Scenes.Any()) throw new ArgumentException(nameof(Scenes), "One or more scenes are required.");
-
-            await base.OnInitializedAsync();
-        }
-
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await JsRuntime.InvokeVoidAsync("eval", GetJsBoostrappingCode());
