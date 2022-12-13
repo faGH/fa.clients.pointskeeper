@@ -48,8 +48,15 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 dbContext.Update(existingDonor);
             }
 
-            await dbContext.SaveChangesAsync();
-            OnInitialized();
+            try
+            {
+                await dbContext.SaveChangesAsync();
+                OnInitialized();
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void FocusOnEditDonor(Donor donorToEdit)

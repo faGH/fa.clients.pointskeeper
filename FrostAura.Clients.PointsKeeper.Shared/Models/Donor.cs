@@ -28,6 +28,6 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
     /// The donor's company logo.
     /// </summary>
     [Description("Company Logo")]
-    public string Logo { get; set; }
+    public string Logo { get; set; } = "https://via.placeholder.com/256x256";
   }
 }

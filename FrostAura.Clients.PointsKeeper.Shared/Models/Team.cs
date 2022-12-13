@@ -15,7 +15,7 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
     /// Team's logo content.
     /// </summary>
     [Description("Team Logo")]
-    public string Logo { get; set; }
+    public string Logo { get; set; } = "https://via.placeholder.com/256x256";
     /// <summary>
     /// Collection of players under the respective team.
     /// </summary>
