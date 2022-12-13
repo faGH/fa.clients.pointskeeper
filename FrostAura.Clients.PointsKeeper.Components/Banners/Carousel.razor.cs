@@ -40,9 +40,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Banners
                     window.carouselsLoaded = window.carouselsLoaded || {};
                     const currentCarouselIsLoaded = window.carouselsLoaded['" + Id + @"'] || false;
 
-                    if(currentCarouselIsLoaded){
-                        return;
-                    }
+                    if(currentCarouselIsLoaded) return;
 
                     setInterval(() => {
                         const track = document.getElementById('" + Id + @"').querySelector(':scope > .track');
