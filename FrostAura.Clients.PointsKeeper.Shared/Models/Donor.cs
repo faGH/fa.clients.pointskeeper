@@ -16,7 +16,7 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
     /// The amount to donate.
     /// </summary>
     [Required]
-    [Range(0.1, int.MaxValue, ErrorMessage = "A valid amount per point is required greater than 0.1.")]
+    [Range(0, int.MaxValue, ErrorMessage = "A valid amount per point is required greater than 0.1.")]
     public double Amount { get; set; }
     /// <summary>
     /// Whether the donation is once-off (True) or per-point (False).

@@ -147,3 +147,24 @@ button.icon {
 tr {
     vertical-align: middle;
 }
+
+.sidebar {
+    position: relative;
+}
+
+    .sidebar > fa-carousel {
+        display: none;
+    }
+
+@media (min-width: 641px) {
+    .sidebar > fa-carousel {
+        display: block;
+    }
+}
+
+    .sidebar > fa-carousel {
+        position: absolute;
+        bottom: 15px;
+        width: 100%;
+        height: 150px;
+    }

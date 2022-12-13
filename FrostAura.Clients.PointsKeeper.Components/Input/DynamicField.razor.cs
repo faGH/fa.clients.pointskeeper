@@ -21,7 +21,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
   /// </summary>
   public partial class DynamicField : BaseComponent<DynamicField>
   {
-        /// <summary>
+    /// <summary>
     /// JavaScript runtime engine.
     /// </summary>
     [Inject]

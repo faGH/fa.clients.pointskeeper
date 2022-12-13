@@ -9,10 +9,14 @@
   <ItemGroup>
     <None Remove="Input\DynamicForm.razor.css" />
     <None Remove="Models\" />
+    <None Remove="Banners\" />
+    <None Remove="Input\DynamicForm %28copy%29.razor.css" />
+    <None Remove="Banners\Carousel.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Input\DynamicForm.razor.css" />
+    <EmbeddedResource Include="Banners\Carousel.razor.css" />
   </ItemGroup>
 
 
@@ -31,5 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Banners\" />
   </ItemGroup>
 </Project>
