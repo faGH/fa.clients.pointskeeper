@@ -1,12 +1,14 @@
 ﻿using FrostAura.Clients.PointsKeeper.Components.Abstractions;
 using FrostAura.Clients.PointsKeeper.Components.Models;
 using FrostAura.Clients.PointsKeeper.Shared.Attributes.Rendering;
+using FrostAura.Clients.PointsKeeper.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.CompilerServices;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System.ComponentModel;
@@ -21,6 +23,8 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
   /// </summary>
   public partial class DynamicField : BaseComponent<DynamicField>
   {
+    [Inject]
+    public IOptions<ApplicationConfig> AplicationConfigOptions { get; set; }
     /// <summary>
     /// JavaScript runtime engine.
     /// </summary>
@@ -241,7 +245,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Input
     private async Task HandleSetImageValue(InputFileChangeEventArgs args)
     {
         var imagesDirectoryName = "images";
-        var baseUrl = Path.Combine("https://pointskeeper.frostaura.net", imagesDirectoryName);
+        var baseUrl = Path.Combine(AplicationConfigOptions.Value.AppBaseUrl, imagesDirectoryName);
         var directory = Path.Combine(Directory.GetCurrentDirectory(), imagesDirectoryName);
         var id = Guid.NewGuid().ToString();
         var filename = $"{directory}/{id}.png";

@@ -76,7 +76,6 @@ namespace FrostAura.Clients.PointsKeeper.Pages
             await dbContext.Points.AddAsync(validPoint);
             await dbContext.SaveChangesAsync();
             OnInitialized();
-            await JsRuntime.InvokeAsync<bool>("alert", new[] { $"Points captures successfully." });
         }
     }
 }

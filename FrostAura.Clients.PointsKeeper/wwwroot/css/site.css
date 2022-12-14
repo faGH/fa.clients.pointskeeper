@@ -168,3 +168,7 @@ tr {
         width: 100%;
         height: 150px;
     }
+
+.center {
+    text-align: center;
+}

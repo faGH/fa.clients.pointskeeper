@@ -13,4 +13,10 @@
     <ProjectReference Include="..\FrostAura.Clients.PointsKeeper.Shared\FrostAura.Clients.PointsKeeper.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
 </Project>
