@@ -225,6 +225,8 @@ input[type=file] {
 .match {
     text-align: center;
     position: relative;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
     .match > div {
@@ -275,4 +277,78 @@ input[type=file] {
     left: 0;
     right: 0;
     height: 0%;
+}
+
+.metrics {
+    text-align: center;
+}
+
+.metrics img {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.match img {
+    height: 35px;
+}
+
+@media (max-width: 320px) {
+    .total, .points {
+        font-size: 100%;
+    }
+
+    .small-text {
+        font-size: 45%;
+    }
+
+    .metrics img {
+        width: calc(100% + 100px);
+        margin-left: -50px;
+    }
+
+    .match > div {
+        margin-left: 0%;
+        font-size: 5px;
+    }
+}
+
+@media (max-width: 420px) {
+    .total, .points {
+        font-size: 100%;
+    }
+
+    .small-text {
+        font-size: 50%;
+    }
+
+    .metrics img {
+        width: calc(100% + 100px);
+        margin-left: -50px;
+    }
+
+    .match > div {
+        margin-left: 1%;
+        font-size: 7px;
+    }
+}
+
+@media (max-width: 650px) {
+    .total, .points {
+        font-size: 110%;
+    }
+
+    .small-text {
+        font-size: 55%;
+    }
+
+    .metrics img {
+        width: calc(100% + 100px);
+        margin-left: -50px;
+    }
+
+    .match > div {
+        margin-left: 2%;
+        font-size: 8px;
+    }
 }
