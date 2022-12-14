@@ -11,7 +11,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Banners
   public partial class Carousel : BaseComponent<Carousel>
   {
         [Parameter]
-        public TimeSpan Delay { get; set; } = TimeSpan.FromSeconds(15);
+        public TimeSpan Delay { get; set; } = TimeSpan.FromSeconds(10);
         [Parameter]
         public List<CarouselScene> Scenes { get; set; }
         /// <summary>

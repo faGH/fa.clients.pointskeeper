@@ -226,7 +226,7 @@ input[type=file] {
     text-align: center;
     position: relative;
     max-width: 700px;
-    margin: 0 auto;
+    margin: 5px auto;
 }
 
     .match > div {
