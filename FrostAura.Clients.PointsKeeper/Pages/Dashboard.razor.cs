@@ -4,11 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using FrostAura.Clients.PointsKeeper.Components.Models;
 using FrostAura.Clients.PointsKeeper.Components.Input;
 using Microsoft.JSInterop;
+using Microsoft.Extensions.Options;
 
 namespace FrostAura.Clients.PointsKeeper.Pages
 {
 	public partial class Dashboard : ComponentBase
     {
+        private const int POINTS_TO_DISPLAY_IN_LADDER = 15;
+        [Inject]
+        public IOptions<ApplicationConfig> ConfigOptions { get; set; }
         [Parameter]
         public TimeSpan Delay { get; set; } = TimeSpan.FromSeconds(15);
         private List<FormPropertyEffect> formPropertyEffects = new List<FormPropertyEffect>();

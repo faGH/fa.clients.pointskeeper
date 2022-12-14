@@ -19,30 +19,38 @@ else if (!points.Any())
 }
 else
 {
-    <div class="container">
+    <div class="container fancy-font">
         <div class="content">
-            <div class="total">R @(Math.Round(GetTotalDonationsPerPoint() * GetTotalPoints() + GetTotalOnceOffDonations(), 2))</div>
-            <div class="points">@GetTotalPoints() Points | @GetTotalOnceOffDonations() Once-Off</div>
+            <div class="total" style="flex: 1">
+                <div>R @(Math.Round(GetTotalDonationsPerPoint() * GetTotalPoints() + GetTotalOnceOffDonations(), 2))</div>
+                <div class="small-text">Out of R @ConfigOptions.Value.MonitaryTarget</div>
+            </div>
+            <div class="thermometer">
+                <img style="width: 150px" src="/img/thermometer.png" />
+            </div>
+            <div class="points" style="flex: 1">@GetTotalPoints() Points</div>
         </div>
-        <div id="metrics">
-            <div>VS</div>
-            <div id="empty-red-row">
-                <div id="red-bar"></div>
-            </div>
-            <div id="teams-blue-row">
-                <img src="https://via.placeholder.com/256x256" alt="Team 1 Logo" />
-                <div>Team 1 Name</div>
-                <div>Team 2 Name</div>
-                <img src="https://via.placeholder.com/256x256" alt="Team 2 Logo" />
-            </div>
-            <div id="points-row">
-                <div>Team 1 Points</div>
-                <div>Points</div>
-                <div>Team 2 Points</div>
-            </div>
+        <div class="metrics">
+            <img style="width: 100%" src="/img/vs_banner.png"/>
         </div>
-        <div  id="ladder">
-            Ladder goes here...
+        <div class="ladder fancy-font">
+            @foreach (var match in points.Take(POINTS_TO_DISPLAY_IN_LADDER))
+            {
+                <div class="match">
+                    <img class="left" style="width: 45%" src="/img/ladder.png" />
+                    <div class="player-data">
+                        <div class="small-fixed">@match.Player1Score</div>
+                        <div style="flex: 1;">@match.Player1.Name</div>
+                    </div>
+                    <div class="circle circle-left"></div>
+                    <img class="right" style="width: 45%; transform: scale(-1, 1);" src="/img/ladder.png" />
+                    <div class="circle circle-right"></div>
+                    <div class="player-data">
+                        <div style="flex: 1;">@match.Player2.Name</div>
+                        <div>@match.Player2Score</div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 }

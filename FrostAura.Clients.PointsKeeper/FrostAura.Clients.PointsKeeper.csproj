@@ -18,5 +18,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
+    <Folder Include="wwwroot\fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\fonts\" />
   </ItemGroup>
 </Project>
