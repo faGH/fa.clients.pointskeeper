@@ -183,3 +183,7 @@ tr {
 input[type=file] {
     display: none;
 }
+
+.collapse + #logo-banner {
+    display: none;
+}
