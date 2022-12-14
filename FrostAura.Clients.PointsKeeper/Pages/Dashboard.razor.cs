@@ -95,6 +95,20 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 .Where(p => !p.Deleted && !p.Player1.Deleted && !p.Player2.Deleted)
                 .Sum(p => p.Player1Score + p.Player2Score);
         }
+
+        private double GetTotal()
+        {
+            return Math.Round(GetTotalDonationsPerPoint() * GetTotalPoints() + GetTotalOnceOffDonations(), 2);
+        }
+
+        private int GetProgressPercentage()
+        {
+            var total = GetTotal();
+            var target = ConfigOptions.Value.MonitaryTarget;
+            var delta = total / target * 100;
+
+            return (int)delta;
+        }
     }
 }
 

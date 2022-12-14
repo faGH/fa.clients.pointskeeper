@@ -254,3 +254,25 @@ input[type=file] {
 .player-data {
     width: 45%;
 }
+
+.thermometer {
+    position: relative;
+}
+
+.progress-placeholder {
+    position: absolute;
+    top: 9px;
+    bottom: 120px;
+    left: 50px;
+    right: 60px;
+    z-index: -1;
+}
+
+.progress-progress {
+    background-color: rgba(9,160,205,255);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0%;
+}

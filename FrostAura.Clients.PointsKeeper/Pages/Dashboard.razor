@@ -22,11 +22,14 @@ else
     <div class="container fancy-font">
         <div class="content">
             <div class="total" style="flex: 1">
-                <div>R @(Math.Round(GetTotalDonationsPerPoint() * GetTotalPoints() + GetTotalOnceOffDonations(), 2))</div>
-                <div class="small-text">Out of R @ConfigOptions.Value.MonitaryTarget</div>
+                <div>R @GetTotal()</div>
+                <div class="small-text">Out of R @ConfigOptions.Value.MonitaryTarget (@GetProgressPercentage()%)</div>
             </div>
             <div class="thermometer desktop">
                 <img style="width: 150px" src="/img/thermometer.png" />
+                <div class="progress-placeholder">
+                    <div class="progress-progress" style="height: @GetProgressPercentage()%"></div>
+                </div>
             </div>
             <div class="points" style="flex: 1">@GetTotalPoints() Points</div>
         </div>
