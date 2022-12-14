@@ -172,3 +172,14 @@ tr {
 .center {
     text-align: center;
 }
+
+#logo-banner img {
+    width: 100%;
+    padding: 15px;
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+input[type=file] {
+    display: none;
+}
