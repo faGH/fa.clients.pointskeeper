@@ -130,6 +130,31 @@ namespace FrostAura.Clients.PointsKeeper.Pages
 
             return (int)delta;
         }
+
+        private IEnumerable<Point> GroupPointsByTeam(IEnumerable<Point> points)
+        {
+            var team1Id = teams[1].Id;
+            var team2Id = teams[0].Id;
+            var groupedPoint = new Point();
+
+            foreach (var point in points)
+            {
+                var swoppingRequired = point.Player1.TeamId != team1Id;
+
+                if (!swoppingRequired) yield return point;
+                else yield return new Point
+                {
+                    Player1 = point.Player2,
+                    Player1Id = point.Player2Id,
+                    Player1Score = point.Player2Score,
+                    Player2 = point.Player1,
+                    Player2Id = point.Player1Id,
+                    Player2Score = point.Player1Score,
+                    TimeStamp = point.TimeStamp,
+                    Id = point.Id
+                };
+            }
+        }
     }
 }
 

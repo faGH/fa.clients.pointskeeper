@@ -41,7 +41,7 @@ else
             </div>
         </div>
         <div class="ladder fancy-font">
-            @foreach (var match in points.Take(POINTS_TO_DISPLAY_IN_LADDER))
+            @foreach (var match in GroupPointsByTeam(points.Take(POINTS_TO_DISPLAY_IN_LADDER)))
             {
                 <div class="match">
                     <img class="left" style="width: 45%" src="/img/ladder.png" />
