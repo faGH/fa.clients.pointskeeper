@@ -200,9 +200,20 @@ input[type=file] {
     display: none;
 }
 
+.mobile {
+    display: none;
+}
 
 @media (max-width: 641px) {
     .collapse + #logo-banner {
+        display: none;
+    }
+
+    .mobile {
+        display: block;
+    }
+
+    .desktop {
         display: none;
     }
 }
@@ -224,7 +235,8 @@ input[type=file] {
         align-items: center;
         height: 100%;
         color: white;
-        margin-left: 3%;
+        margin-left: 4%;
+        font-size: 12px;
     }
 
         .match > div:last-child {
@@ -232,7 +244,7 @@ input[type=file] {
             right: 0;
             left: unset;
             margin-left: unset;
-            margin-right: 6%;
+            margin-right: 7%;
         }
 
 .small-fixed {
