@@ -5,6 +5,8 @@ Points Keeper Blazor client.
 | Project | Build | Test Coverage
 | --- | --- | --- |
 | FrostAura.Clients.PointsKeeper | [![Containerization Workflow](https://github.com/faGH/fa.clients.pointskeeper/actions/workflows/containerization_workflow.yml/badge.svg)](https://github.com/faGH/fa.clients.pointskeeper/actions/workflows/containerization_workflow.yml) | PENDING |
+## Link
+https://pointskeeper.frostaura.net
 ## Database Migrations (EF Core)
 ### Overview
 For migrations, we need to add them initially and update or re-add them each time the context changes. The actual execution of migrations happen on application start and is autonomous.
