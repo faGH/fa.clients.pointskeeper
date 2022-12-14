@@ -281,7 +281,23 @@ input[type=file] {
 
 .metrics {
     text-align: center;
+    position: relative;
 }
+
+    .metrics > div {
+        position: absolute;
+        display: flex;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+        .metrics > div > div {
+            color: white;
+            background-color: rgba(21,32,77,255);
+            flex: 1;
+            line-height: 1;
+        }
 
 .metrics img {
     width: 100%;
@@ -293,13 +309,17 @@ input[type=file] {
     height: 35px;
 }
 
-@media (max-width: 320px) {
+.margin-large {
+    margin-right: 95px;
+}
+
+@media (max-width: 650px) {
     .total, .points {
-        font-size: 100%;
+        font-size: 110%;
     }
 
     .small-text {
-        font-size: 45%;
+        font-size: 55%;
     }
 
     .metrics img {
@@ -308,8 +328,17 @@ input[type=file] {
     }
 
     .match > div {
-        margin-left: 0%;
-        font-size: 5px;
+        margin-left: 2%;
+        font-size: 8px;
+    }
+
+    .margin-large {
+        margin-right: 45px;
+    }
+
+    .metrics > div {
+        bottom: 17px;
+        font-size: 1.9vw;
     }
 }
 
@@ -331,15 +360,24 @@ input[type=file] {
         margin-left: 1%;
         font-size: 7px;
     }
+
+    .margin-large {
+        margin-right: 52px;
+    }
+
+    .metrics > div {
+        bottom: 17px;
+        font-size: 10px;
+    }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 320px) {
     .total, .points {
-        font-size: 110%;
+        font-size: 100%;
     }
 
     .small-text {
-        font-size: 55%;
+        font-size: 45%;
     }
 
     .metrics img {
@@ -348,7 +386,16 @@ input[type=file] {
     }
 
     .match > div {
-        margin-left: 2%;
-        font-size: 8px;
+        margin-left: 0%;
+        font-size: 5px;
+    }
+
+    .margin-large {
+        margin-right: 33px;
+    }
+
+    .metrics > div {
+        bottom: 17px;
+        font-size: 9px;
     }
 }

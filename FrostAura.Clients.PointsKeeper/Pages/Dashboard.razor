@@ -35,6 +35,10 @@ else
         </div>
         <div class="metrics">
             <img src="/img/vs_banner.png"/>
+            <div>
+                <div class="margin-large">@GetPointsForTeam(1)</div>
+                <div>@GetPointsForTeam(0)</div>
+            </div>
         </div>
         <div class="ladder fancy-font">
             @foreach (var match in points.Take(POINTS_TO_DISPLAY_IN_LADDER))

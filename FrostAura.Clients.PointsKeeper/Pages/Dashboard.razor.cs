@@ -17,6 +17,7 @@ namespace FrostAura.Clients.PointsKeeper.Pages
         public TimeSpan Delay { get; set; } = TimeSpan.FromSeconds(15);
         private List<FormPropertyEffect> formPropertyEffects = new List<FormPropertyEffect>();
         private List<Point>? points;
+        private List<Team>? teams;
 
         [JSInvokable]
         public Task RefreshDashboardAsync()
@@ -27,6 +28,21 @@ namespace FrostAura.Clients.PointsKeeper.Pages
             return Task.CompletedTask;
         }
 
+        private int GetPointsForTeam(int teamIndex)
+        {
+            if (teamIndex > teams.Count) return 0;
+
+            var team = teams[teamIndex];
+            var allPlayer1TeamPoints = points
+                .Where(p => p.Player1.TeamId == team.Id)
+                .Sum(p => p.Player1Score);
+            var allPlayer2TeamPoints = points
+                .Where(p => p.Player2.TeamId == team.Id)
+                .Sum(p => p.Player2Score);
+
+            return allPlayer1TeamPoints + allPlayer2TeamPoints;
+        }
+
         protected override void OnInitialized()
         {
             points = dbContext
@@ -35,6 +51,11 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 .Include(p => p.Player2)
                 .Where(p => !p.Deleted)
                 .OrderByDescending(p => p.TimeStamp)
+                .ToList();
+            teams = dbContext
+                .Teams
+                .Where(t => !t.Deleted)
+                .OrderBy(t => t.Name)
                 .ToList();
             var players = dbContext
                 .Players
