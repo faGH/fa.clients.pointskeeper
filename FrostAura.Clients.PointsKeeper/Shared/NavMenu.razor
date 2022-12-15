@@ -58,3 +58,6 @@
     <InputFile id="main_logo_picker" OnChange="OnMainLogoChangedAsync"></InputFile>
 </div>
 <Carousel Scenes="carouselScenes"></Carousel>
+<Refresher RefreshInterval="TimeSpan.FromSeconds(ApplicationConfigOptions.Value.AutoRefreshDelayInSeconds)"
+           RefreshIndefinitely="true"
+           RefreshDelegate="() => OnInitialized()"></Refresher>

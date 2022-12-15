@@ -12,7 +12,7 @@ namespace FrostAura.Clients.PointsKeeper.Components.Abstractions
     /// Unique component instance identifier.
     /// </summary>
     [Parameter]
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    public string Id { get; set; } = Guid.NewGuid().ToString().Replace("-", "");
     /// <summary>
     /// Whether to enable demo defaults for this component.
     /// </summary>

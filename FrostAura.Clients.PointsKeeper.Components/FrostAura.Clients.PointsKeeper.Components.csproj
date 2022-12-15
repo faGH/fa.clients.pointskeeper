@@ -12,6 +12,8 @@
     <None Remove="Banners\" />
     <None Remove="Input\DynamicForm %28copy%29.razor.css" />
     <None Remove="Banners\Carousel.razor.css" />
+    <None Remove="Background\" />
+    <None Remove="Background\Carousel %28copy%29.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,5 +38,9 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Banners\" />
+    <Folder Include="Background\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Background\Carousel %28copy%29.razor.cs" />
   </ItemGroup>
 </Project>

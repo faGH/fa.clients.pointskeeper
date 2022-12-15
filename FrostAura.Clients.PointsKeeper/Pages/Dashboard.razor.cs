@@ -10,38 +10,11 @@ namespace FrostAura.Clients.PointsKeeper.Pages
 {
 	public partial class Dashboard : ComponentBase
     {
-        private const int POINTS_TO_DISPLAY_IN_LADDER = 15;
         [Inject]
         public IOptions<ApplicationConfig> ConfigOptions { get; set; }
-        [Parameter]
-        public TimeSpan Delay { get; set; } = TimeSpan.FromSeconds(15);
         private List<FormPropertyEffect> formPropertyEffects = new List<FormPropertyEffect>();
         private List<Point>? points;
         private List<Team>? teams;
-
-        [JSInvokable]
-        public Task RefreshDashboardAsync()
-        {
-            OnInitialized();
-            StateHasChanged();
-
-            return Task.CompletedTask;
-        }
-
-        private int GetPointsForTeam(int teamIndex)
-        {
-            if (teamIndex > teams.Count) return 0;
-
-            var team = teams[teamIndex];
-            var allPlayer1TeamPoints = points
-                .Where(p => p.Player1.TeamId == team.Id)
-                .Sum(p => p.Player1Score);
-            var allPlayer2TeamPoints = points
-                .Where(p => p.Player2.TeamId == team.Id)
-                .Sum(p => p.Player2Score);
-
-            return allPlayer1TeamPoints + allPlayer2TeamPoints;
-        }
 
         protected override void OnInitialized()
         {
@@ -67,28 +40,27 @@ namespace FrostAura.Clients.PointsKeeper.Pages
             formPropertyEffects.Add(new EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>("PlayerId", players));
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+        private Task RefreshDashboardAsync()
         {
-            var thisJsReference = DotNetObjectReference.Create(this);
-            var bootstrapCommand = @"var boostrapDashboard = (csharpObj) => {
-                window.dashboard = csharpObj;
-            }";
-            var mainLoopCommand = @"(() => {
-                window.dashboardsLoaded = window.dashboardsLoaded || false;
+            OnInitialized();
+            StateHasChanged();
 
-                if(window.dashboardsLoaded) return;
+            return Task.CompletedTask;
+        }
 
-                setInterval(() => {
-                    window.dashboard.invokeMethodAsync('" + nameof(RefreshDashboardAsync) + @"')
-                }, " + Delay.TotalMilliseconds + @");
+        private int GetPointsForTeam(int teamIndex)
+        {
+            if (teamIndex > teams.Count) return 0;
 
-                window.dashboardsLoaded = true;
-            })();";
+            var team = teams[teamIndex];
+            var allPlayer1TeamPoints = points
+                .Where(p => p.Player1.TeamId == team.Id)
+                .Sum(p => p.Player1Score);
+            var allPlayer2TeamPoints = points
+                .Where(p => p.Player2.TeamId == team.Id)
+                .Sum(p => p.Player2Score);
 
-            await JsRuntime.InvokeVoidAsync("eval", bootstrapCommand);
-            await JsRuntime.InvokeVoidAsync("boostrapDashboard", thisJsReference);
-            await JsRuntime.InvokeVoidAsync("eval", mainLoopCommand);
-            await base.OnAfterRenderAsync(firstRender);
+            return allPlayer1TeamPoints + allPlayer2TeamPoints;
         }
 
         private double GetTotalDonationsPerPoint()
