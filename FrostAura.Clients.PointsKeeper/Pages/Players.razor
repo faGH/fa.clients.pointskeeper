@@ -25,6 +25,7 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Team</th>
@@ -36,6 +37,7 @@ else
             @foreach (var player in players)
             {
                 <tr>
+                    <td><img class="image-picker-image" src="@GetImageSrc(player)" /></td>
                     <td>@player.Id</td>
                     <td>@player.Name</td>
                     <td>@player.Team.Name</td>

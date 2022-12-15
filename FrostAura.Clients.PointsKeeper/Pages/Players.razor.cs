@@ -23,6 +23,7 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 .ToList();
             formPropertyEffects.Clear();
             formPropertyEffects.Add(new EntitySelectFormPropertyEffect<int, SelectInputCustom<int>>("TeamId", teams));
+            formPropertyEffects.Add(new ImagePickerFormPropertyEffect(nameof(Player.Logo)));
             players = dbContext
                 .Players
                 .Include(p => p.Team)
@@ -85,6 +86,15 @@ namespace FrostAura.Clients.PointsKeeper.Pages
                 await dbContext.SaveChangesAsync();
                 OnInitialized();
             }
+        }
+
+        private string GetImageSrc(Player player)
+        {
+            var placeholder = "https://via.placeholder.com/256x256";
+
+            if (string.IsNullOrWhiteSpace(player.Logo)) return placeholder;
+
+            return player.Logo;
         }
     }
 }

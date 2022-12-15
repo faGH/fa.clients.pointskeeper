@@ -1,4 +1,5 @@
 ﻿using FrostAura.Libraries.Data.Models.EntityFramework;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -12,6 +13,11 @@ namespace FrostAura.Clients.PointsKeeper.Shared.Models
   [DebuggerDisplay("Name: {Name}")]
   public class Player : BaseNamedEntity
   {
+    /// <summary>
+    /// Team's logo content.
+    /// </summary>
+    [Description("Player Logo")]
+    public string Logo { get; set; } = "https://via.placeholder.com/256x256";
     /// <summary>
     /// The unique id of the team the respective player belongs to.
     /// </summary>
