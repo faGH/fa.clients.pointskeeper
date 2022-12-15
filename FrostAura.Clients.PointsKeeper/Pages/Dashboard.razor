@@ -43,18 +43,21 @@ else
         <div class="ladder fancy-font">
             @foreach (var match in GroupPointsByTeam(points))
             {
-                <div class="match">
-                    <img class="left" style="width: 45%" src="/img/ladder.png" />
-                    <div class="player-data">
-                        <div class="small-fixed">@match.Player1Score</div>
-                        <div style="flex: 1;">@match.Player1.Name</div>
+                <div class="player-match">
+                    <div class="player player-left">
+                        <div class="player-points">@match.Player1Score</div>
+                        <div class="player-name">@match.Player1.Name</div>
+                        <div class="player-photo">
+                            <img alt="@match.Player1.Name Photo" src="@match.Player1.Logo" />
+                        </div>
                     </div>
-                    <div class="circle circle-left"></div>
-                    <img class="right" style="width: 45%; transform: scale(-1, 1);" src="/img/ladder.png" />
-                    <div class="circle circle-right"></div>
-                    <div class="player-data">
-                        <div style="flex: 1;">@match.Player2.Name</div>
-                        <div>@match.Player2Score</div>
+                    <div class="spacer"></div>
+                    <div class="player player-right">
+                        <div class="player-photo">
+                            <img alt="@match.Player2.Name Photo" src="@match.Player2.Logo" />
+                        </div>
+                        <div class="player-name">@match.Player2.Name</div>
+                        <div class="player-points">@match.Player2Score</div>
                     </div>
                 </div>
             }

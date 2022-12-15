@@ -89,7 +89,6 @@ namespace FrostAura.Clients.PointsKeeper.Components.Background
                 if(refresher.initialized) return;
 
                 refresher.interval = " + (RefreshIndefinitely ? "setInterval": "setTimeout") + @"(() => {
-                    console.log('Refreshing....');
                     refresher.reference.invokeMethodAsync('" + nameof(RefreshAsync) + @"')
                 }, " + RefreshInterval.TotalMilliseconds + @");
 

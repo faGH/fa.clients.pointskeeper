@@ -222,33 +222,6 @@ input[type=file] {
     padding: 0px 15px 15px 15px;
 }
 
-.match {
-    text-align: center;
-    position: relative;
-    max-width: 700px;
-    margin: 5px auto;
-}
-
-    .match > div {
-        position: absolute;
-        display: flex;
-        top: 0;
-        left: 0;
-        align-items: center;
-        height: 100%;
-        color: white;
-        margin-left: 4%;
-        font-size: 12px;
-    }
-
-        .match > div:last-child {
-            top: 0;
-            right: 0;
-            left: unset;
-            margin-left: unset;
-            margin-right: 7%;
-        }
-
 .small-fixed {
     padding: 0 25px;
 }
@@ -301,16 +274,113 @@ input[type=file] {
 
 .metrics img {
     width: 100%;
-    max-width: 700px;
+    max-width: 900px;
     margin: 0 auto;
-}
-
-.match img {
-    height: 35px;
 }
 
 .margin-large {
     margin-right: 95px;
+}
+
+#adminBtn {
+    color: white;
+}
+
+/* Start of leaderboard styling. */
+.spacer {
+    width: 1vw;
+}
+
+.container.fancy-font {
+    padding: 0;
+}
+
+.container .ladder {
+    width: 100%;
+}
+
+    .container .ladder .player-match {
+        width: 100%;
+        display: flex;
+        color: white;
+        margin-bottom: 15px;
+        font-size: 100%;
+
+    }
+
+        .container .ladder .player-match .player {
+            flex: 1;
+            display: flex;
+        }
+
+            .container .ladder .player-match .player .player-points {
+                background-color: rgb(41,165,209);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 5vw;
+                padding: 0 15px;
+            }
+
+            .container .ladder .player-match .player .player-name {
+                background-color: rgb(24,39,89);
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-transform: capitalize;
+            }
+
+            .container .ladder .player-match .player .player-photo {
+                background-color: rgb(24,39,89);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .container .ladder .player-match .player .player-photo img {
+                    min-width: 15px;
+                    min-height: 15px;
+                    height: 2vw;
+                    width: 2vw;
+                    border-radius: 100%;
+                    object-fit: cover;
+                    border: 2px solid rgb(24,39,89);
+                }
+
+            .container .ladder .player-match .player.player-left .player-photo {
+                border-top-right-radius: 100%;
+                border-bottom-right-radius: 100%;
+            }
+
+            .container .ladder .player-match .player.player-right .player-photo {
+                border-top-left-radius: 100%;
+                border-bottom-left-radius: 100%;
+            }
+/* End of leaderboard styling. */
+@media (min-width: 1000px) {
+    .total, .points {
+        font-size: 300%;
+    }
+
+    .small-text {
+        font-size: 55%;
+    }
+
+    .sidebar {
+        width: 450px!important;
+    }
+
+        .sidebar > fa-carousel {
+            height: 250px;
+        }
+
+    div.title-bar {
+        font-size: 90%;
+    }
 }
 
 @media (max-width: 650px) {
@@ -318,18 +388,9 @@ input[type=file] {
         font-size: 110%;
     }
 
-    .small-text {
-        font-size: 55%;
-    }
-
     .metrics img {
         width: calc(100% + 100px);
         margin-left: -50px;
-    }
-
-    .match > div {
-        margin-left: 2%;
-        font-size: 8px;
     }
 
     .margin-large {
@@ -339,6 +400,10 @@ input[type=file] {
     .metrics > div {
         bottom: 17px;
         font-size: 1.9vw;
+    }
+
+    .container .ladder .player-match {
+        font-size: 2vw;
     }
 }
 
@@ -354,11 +419,6 @@ input[type=file] {
     .metrics img {
         width: calc(100% + 100px);
         margin-left: -50px;
-    }
-
-    .match > div {
-        margin-left: 1%;
-        font-size: 7px;
     }
 
     .margin-large {
@@ -383,11 +443,6 @@ input[type=file] {
     .metrics img {
         width: calc(100% + 100px);
         margin-left: -50px;
-    }
-
-    .match > div {
-        margin-left: 0%;
-        font-size: 5px;
     }
 
     .margin-large {
