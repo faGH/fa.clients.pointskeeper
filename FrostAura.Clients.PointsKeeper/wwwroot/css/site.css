@@ -218,10 +218,6 @@ input[type=file] {
     }
 }
 
-.metrics {
-    padding: 0px 15px 15px 15px;
-}
-
 .small-fixed {
     padding: 0 25px;
 }
@@ -255,31 +251,32 @@ input[type=file] {
 .metrics {
     text-align: center;
     position: relative;
+    margin: 0px 15px 15px 15px;
 }
 
     .metrics > div {
         position: absolute;
         display: flex;
-        bottom: 20px;
+        bottom: 1.3vw;
         left: 50%;
         transform: translateX(-50%);
+        font-size: 125%
     }
 
         .metrics > div > div {
             color: white;
-            background-color: rgba(21,32,77,255);
             flex: 1;
             line-height: 1;
         }
 
-.metrics img {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-}
+    .metrics img {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+    }
 
 .margin-large {
-    margin-right: 95px;
+    margin-right: 6.5vw;
 }
 
 #adminBtn {
@@ -383,6 +380,16 @@ input[type=file] {
     }
 }
 
+@media (max-width: 1000px) {
+    .metrics > div {
+        font-size: 100%
+    }
+
+    .margin-large {
+        margin-right: 7.3vw;
+    }
+}
+
 @media (max-width: 650px) {
     .total, .points {
         font-size: 110%;
@@ -405,6 +412,10 @@ input[type=file] {
     .container .ladder .player-match {
         font-size: 2vw;
     }
+
+    .margin-large {
+        margin-right: 14vw;
+    }
 }
 
 @media (max-width: 420px) {
@@ -422,11 +433,11 @@ input[type=file] {
     }
 
     .margin-large {
-        margin-right: 52px;
+        margin-right: 54px;
     }
 
     .metrics > div {
-        bottom: 17px;
+        bottom: 12px;
         font-size: 10px;
     }
 }
@@ -446,11 +457,11 @@ input[type=file] {
     }
 
     .margin-large {
-        margin-right: 33px;
+        margin-right: 40px;
     }
 
     .metrics > div {
-        bottom: 17px;
+        bottom: 8px;
         font-size: 9px;
     }
 }
