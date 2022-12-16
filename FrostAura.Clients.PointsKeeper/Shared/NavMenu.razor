@@ -42,6 +42,9 @@
     @if (IsSignedIn)
     {
         <div class="center">
+            <button @onclick="ExportDataAsync" class="btn btn-link">Export Data</button>
+        </div>
+        <div class="center">
             <button @onclick="SignOutAsync" class="btn btn-danger">Sign Out</button>
         </div>
     }

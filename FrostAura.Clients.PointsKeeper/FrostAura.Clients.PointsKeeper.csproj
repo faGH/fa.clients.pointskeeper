@@ -15,12 +15,15 @@
 
   <ItemGroup>
     <None Remove="Interfaces\" />
+    <None Remove="IronXL.Excel" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="wwwroot\fonts\" />
+    <Folder Include="wwwroot\docs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\fonts\" />
+    <Content Remove="wwwroot\docs\" />
   </ItemGroup>
 </Project>
