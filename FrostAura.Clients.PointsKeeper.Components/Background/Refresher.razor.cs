@@ -71,6 +71,8 @@ namespace FrostAura.Clients.PointsKeeper.Components.Background
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+            if (!firstRender) return;
+
             var thisJsReference = DotNetObjectReference.Create(this);
             var bootstrapCommand = @"var boostrapDashboard = (csharpObj, id) => {
                 if(!csharpObj) throw new Error('A valid C# reference object is required.');
